@@ -1,18 +1,27 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
-import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+import { Archivo, Space_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
+
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  weight: "variable",
+  axes: ["wdth"],
+  display: "swap",
+});
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: "variable",
   display: "swap",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -72,10 +81,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" id="top">
-      <body className={`${spaceGrotesk.variable} ${ibmPlexMono.variable}`}>
+      <body
+        className={`${archivo.variable} ${spaceGrotesk.variable} ${spaceMono.variable}`}
+      >
         {children}
       </body>
     </html>
   );
 }
-
