@@ -11,6 +11,22 @@
   --font-display: var(--font-archivo, "Archivo"), "Arial", sans-serif;
   --font-body: var(--font-space-grotesk, "Space Grotesk"), "Arial", sans-serif;
   --font-mono: var(--font-space-mono, "Space Mono"), "Courier New", monospace;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+  --space-128: 128px;
+  --radius-none: 0;
+  --radius-full: 9999px;
+  --size-control-lg: 52px;
+  --size-header-desktop: 76px;
+  --size-header-mobile: 66px;
   --page-padding: clamp(1rem, 3.4vw, 3.75rem);
   --max-width: 1600px;
 }
@@ -84,7 +100,7 @@ a {
   border-bottom: 1px solid var(--line);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  min-height: 76px;
+  min-height: var(--size-header-desktop);
   padding: 0 var(--page-padding);
   position: sticky;
   top: 0;
@@ -152,7 +168,7 @@ a {
   align-items: stretch;
   display: grid;
   grid-template-columns: minmax(0, 1.48fr) minmax(300px, 0.52fr);
-  min-height: calc(100vh - 76px);
+  min-height: calc(100vh - var(--size-header-desktop));
 }
 
 .hero-copy {
@@ -209,7 +225,7 @@ a {
   gap: 2rem;
   justify-content: space-between;
   letter-spacing: 0.08em;
-  min-height: 52px;
+  min-height: var(--size-control-lg);
   padding: 0 1.25rem;
   text-transform: uppercase;
   transition:
@@ -1046,7 +1062,7 @@ a {
 .case-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(380px, 0.8fr);
-  min-height: calc(100vh - 76px);
+  min-height: calc(100vh - var(--size-header-desktop));
 }
 
 .case-hero-copy {
@@ -1379,7 +1395,7 @@ a {
 
   .hero-copy {
     border-right: 0;
-    min-height: calc(100svh - 76px);
+    min-height: calc(100svh - var(--size-header-desktop));
     padding-right: 0;
   }
 
@@ -1504,7 +1520,7 @@ a {
 
   .site-header,
   .case-header {
-    min-height: 66px;
+    min-height: var(--size-header-mobile);
   }
 
   .wordmark {
@@ -1512,7 +1528,7 @@ a {
   }
 
   .hero-copy {
-    min-height: calc(100svh - 66px);
+    min-height: calc(100svh - var(--size-header-mobile));
     padding-bottom: 3.5rem;
     padding-top: 4rem;
   }
@@ -1604,7 +1620,7 @@ a {
   }
 
   .case-hero-copy {
-    min-height: calc(100svh - 66px);
+    min-height: calc(100svh - var(--size-header-mobile));
   }
 
   .case-cover {
