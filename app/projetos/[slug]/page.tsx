@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CaseStudyPage } from "../../CaseStudyPage";
+import { AngularShell } from "../../AngularShell";
 import { getProject, projects } from "../../content";
 
 export function generateStaticParams() {
@@ -33,6 +33,5 @@ export default async function ProjectPage({
 
   if (!project) notFound();
 
-  return <CaseStudyPage locale="pt" project={project} />;
+  return <AngularShell />;
 }
-

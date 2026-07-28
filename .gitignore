@@ -16,6 +16,7 @@
 # next.js
 /.next/
 /.vinext/
+/.angular/
 /out/
 
 # misc
@@ -38,5 +39,7 @@ yarn-error.log*
 next-env.d.ts
 /dist/
 /.wrangler/
+/angular-dist/
+/public/angular/
 /outputs/
 /work/

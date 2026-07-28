@@ -1,0 +1,112 @@
+<div class="case-shell" [attr.lang]="t.htmlLang">
+  <header class="case-header">
+    <app-wordmark [locale]="locale" />
+    <a class="back-link" [routerLink]="backPath" fragment="projetos">
+      <span aria-hidden="true">←</span>
+      {{ t.case.back }}
+    </a>
+  </header>
+
+  <main>
+    <section class="case-hero">
+      <div class="case-hero-copy">
+        <p class="eyebrow">
+          {{ project.index }} / {{ project.category[locale] }}
+        </p>
+        <h1>{{ project.title[locale] }}</h1>
+        <p>{{ project.summary[locale] }}</p>
+        <div class="model-badge">
+          <span aria-hidden="true"></span>
+          {{ t.case.model }}
+        </div>
+      </div>
+
+      <div class="case-cover" aria-hidden="true">
+        <div class="case-cover-window">
+          <div class="case-cover-top">
+            <span></span>
+            <span>{{ project.index }}</span>
+          </div>
+          <div class="case-cover-title">
+            <span>DESIGN</span>
+            <span>BUILD</span>
+            <span>EVOLVE</span>
+          </div>
+          <div class="case-cover-grid">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-facts" [attr.aria-label]="t.case.overview">
+      <div>
+        <span>{{ t.case.overview }}</span>
+        <p>{{ project.context[locale] }}</p>
+      </div>
+      <div>
+        <span>{{ t.case.role }}</span>
+        <p>{{ project.role[locale] }}</p>
+      </div>
+      <div>
+        <span>Status</span>
+        <p>{{ t.case.model }}</p>
+      </div>
+    </section>
+
+    <section class="case-section case-section-split">
+      <p class="eyebrow">01 / {{ t.case.challenge }}</p>
+      <div>
+        <h2>{{ t.case.challenge }}</h2>
+        <p class="case-lead">{{ project.challenge[locale] }}</p>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="case-section-head">
+        <p class="eyebrow">02 / {{ t.case.process }}</p>
+        <h2>{{ t.case.process }}</h2>
+      </div>
+      <div class="case-process-grid">
+        @for (step of project.process; track step.index) {
+          <article>
+            <span>{{ step.index }}</span>
+            <h3>{{ step.title[locale] }}</h3>
+            <p>{{ step.description[locale] }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="case-section outcome-section">
+      <div>
+        <p class="eyebrow">03 / {{ t.case.outcome }}</p>
+        <h2>{{ t.case.outcome }}</h2>
+        <p class="case-lead">{{ project.outcome[locale] }}</p>
+      </div>
+      <aside>
+        <span>{{ t.case.evidence }}</span>
+        <strong>—</strong>
+        <p>{{ t.case.evidenceBody }}</p>
+      </aside>
+    </section>
+
+    <section class="case-section learning-section">
+      <p class="eyebrow">04 / {{ t.case.learning }}</p>
+      <blockquote>{{ project.learning[locale] }}</blockquote>
+    </section>
+
+    <a
+      class="next-case"
+      [routerLink]="nextProjectPath"
+      [attr.aria-label]="t.case.next + ': ' + nextProject.title[locale]"
+    >
+      <span>{{ t.case.next }}</span>
+      <strong>{{ nextProject.title[locale] }}</strong>
+      <i aria-hidden="true">↗</i>
+    </a>
+  </main>
+</div>

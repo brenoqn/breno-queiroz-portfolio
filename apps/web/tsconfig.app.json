@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.angular.json",
+  "compilerOptions": {
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../shared/**/*.ts"
+  ]
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PortfolioPage } from "../PortfolioPage";
+import { AngularShell } from "../AngularShell";
 
 export const metadata: Metadata = {
   title: "Breno Queiroz — Web Designer & Full-Stack Developer",
@@ -8,6 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function EnglishHome() {
-  return <PortfolioPage locale="en" />;
+  return <AngularShell />;
 }
-

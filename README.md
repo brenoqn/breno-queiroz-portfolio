@@ -1,98 +1,48 @@
-# vinext-starter
+# Portfólio Breno Queiroz
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+Portfólio bilíngue e editorial de Breno Queiroz, apresentado como Web Designer e Desenvolvedor Full-Stack. A versão atual é um preview privado com conteúdo-modelo: projetos, métricas e contatos reais serão adicionados antes da publicação.
 
-## Prerequisites
+## Arquitetura
 
-- Node.js `>=22.13.0`
+- `apps/web`: interface Angular 22, componentes e rotas do portfólio.
+- `shared/content.ts`: conteúdo tipado e bilíngue compartilhado.
+- `app`: shell mínimo Next.js/vinext usado pela hospedagem no Sites e reservado para futuras APIs.
+- `scripts/stage-angular.mjs`: prepara o bundle Angular para a camada de hospedagem.
 
-## Quick Start
+O front-end não depende de banco de dados, autenticação, CMS, analytics ou formulário funcional nesta etapa.
+
+## Rotas
+
+- `/` e `/en`: home em português e inglês.
+- `/projetos/:slug` e `/en/projects/:slug`: estudos de caso bilíngues.
+
+## Desenvolvimento
+
+Requer Node.js `>=22.13.0`.
 
 ```bash
 npm install
+npm run dev:web
+```
+
+`npm run dev:web` executa apenas a aplicação Angular em `http://localhost:4200`.
+
+Para validar a integração completa com o shell de hospedagem:
+
+```bash
 npm run dev
+```
+
+## Qualidade e produção
+
+```bash
+npm test
 npm run build
+npm audit --omit=dev
 ```
 
-This starter does not use `wrangler.jsonc`.
+O build completo gera o Angular, prepara seus artefatos e compila a camada vinext usada pelo Sites.
 
-## Included Shape
+## Conteúdo público
 
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
-```
-
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+A publicação pública só deve acontecer depois que projetos, resultados, métricas, links profissionais e um canal de contato forem confirmados. Campos incompletos permanecem ocultos e nenhum dado de credibilidade deve ser inventado.
