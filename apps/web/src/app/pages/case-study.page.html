@@ -9,7 +9,7 @@
 
   <main>
     <section class="case-hero">
-      <div class="case-hero-copy">
+      <div class="case-hero-copy" appReveal>
         <p class="eyebrow">
           {{ project.index }} / {{ project.category[locale] }}
         </p>
@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div class="case-cover" aria-hidden="true">
+      <div class="case-cover motion-reveal-delay" aria-hidden="true" appReveal>
         <div class="case-cover-window">
           <div class="case-cover-top">
             <span></span>
@@ -42,7 +42,7 @@
       </div>
     </section>
 
-    <section class="case-facts" [attr.aria-label]="t.case.overview">
+    <section class="case-facts" [attr.aria-label]="t.case.overview" appReveal>
       <div>
         <span>{{ t.case.overview }}</span>
         <p>{{ project.context[locale] }}</p>
@@ -57,7 +57,7 @@
       </div>
     </section>
 
-    <section class="case-section case-section-split">
+    <section class="case-section case-section-split" appReveal>
       <p class="eyebrow">01 / {{ t.case.challenge }}</p>
       <div>
         <h2>{{ t.case.challenge }}</h2>
@@ -65,7 +65,7 @@
       </div>
     </section>
 
-    <section class="case-section">
+    <section class="case-section" appReveal>
       <div class="case-section-head">
         <p class="eyebrow">02 / {{ t.case.process }}</p>
         <h2>{{ t.case.process }}</h2>
@@ -81,7 +81,7 @@
       </div>
     </section>
 
-    <section class="case-section outcome-section">
+    <section class="case-section outcome-section" appReveal>
       <div>
         <p class="eyebrow">03 / {{ t.case.outcome }}</p>
         <h2>{{ t.case.outcome }}</h2>
@@ -94,13 +94,14 @@
       </aside>
     </section>
 
-    <section class="case-section learning-section">
+    <section class="case-section learning-section" appReveal>
       <p class="eyebrow">04 / {{ t.case.learning }}</p>
       <blockquote>{{ project.learning[locale] }}</blockquote>
     </section>
 
     <a
       class="next-case"
+      appReveal
       [routerLink]="nextProjectPath"
       [attr.aria-label]="t.case.next + ': ' + nextProject.title[locale]"
     >

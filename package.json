@@ -14,7 +14,7 @@
     "build": "npm run build:web && npm run stage:web && npm run build:host",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern angular-dist --ignore-pattern public/angular",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern .angular --ignore-pattern angular-dist --ignore-pattern public/angular --ignore-pattern work",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {

@@ -82,3 +82,31 @@ test("builds the Angular interface with bilingual portfolio content", async () =
     /I design experiences and build digital products/,
   );
 });
+
+test("ships the mapped green motion system with reduced-motion support", async () => {
+  const [styles, ambientMotion, rotatingRole] = await Promise.all([
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(
+      new URL(
+        "../apps/web/src/app/components/ambient-motion.component.ts",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../apps/web/src/app/components/rotating-role.component.ts",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  ]);
+
+  assert.match(styles, /@keyframes ambient-drift-a/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(styles, /\.motion-reveal\.is-visible/);
+  assert.match(ambientMotion, /pointermove/);
+  assert.match(ambientMotion, /prefers-reduced-motion: reduce/);
+  assert.match(rotatingRole, /DESENVOLVEDOR FULL-STACK/);
+  assert.match(rotatingRole, /FULL-STACK DEVELOPER/);
+});

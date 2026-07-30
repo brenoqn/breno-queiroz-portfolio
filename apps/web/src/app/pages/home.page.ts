@@ -14,11 +14,19 @@ import {
   type Locale,
 } from "../../../../../shared/content";
 import { ProjectVisualComponent } from "../components/project-visual.component";
+import { RotatingRoleComponent } from "../components/rotating-role.component";
 import { WordmarkComponent } from "../components/wordmark.component";
+import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directive";
 
 @Component({
   selector: "app-home-page",
-  imports: [ProjectVisualComponent, RouterLink, WordmarkComponent],
+  imports: [
+    ProjectVisualComponent,
+    RevealOnScrollDirective,
+    RotatingRoleComponent,
+    RouterLink,
+    WordmarkComponent,
+  ],
   templateUrl: "./home.page.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

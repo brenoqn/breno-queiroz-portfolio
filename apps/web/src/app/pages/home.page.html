@@ -26,6 +26,7 @@
       <div class="hero-copy reveal">
         <p class="eyebrow">01 / {{ t.hero.eyebrow }}</p>
         <h1 id="hero-title">{{ t.hero.title }}</h1>
+        <app-rotating-role [locale]="locale" />
         <p class="hero-body">{{ t.hero.body }}</p>
         <div class="hero-actions">
           <a class="button button-primary" href="#projetos">
@@ -75,13 +76,13 @@
       class="section-frame section-block"
       aria-labelledby="why-title"
     >
-      <div class="section-heading">
+      <div class="section-heading" appReveal>
         <p class="eyebrow">02 / {{ t.why.eyebrow }}</p>
         <h2 id="why-title">{{ t.why.title }}</h2>
         <p>{{ t.why.body }}</p>
       </div>
 
-      <div class="pillar-grid">
+      <div class="pillar-grid" appReveal>
         @for (pillar of t.pillars; track pillar.index) {
           <article class="pillar-card">
             <span class="card-index">{{ pillar.index }}</span>
@@ -98,7 +99,7 @@
       id="projetos"
       aria-labelledby="work-title"
     >
-      <div class="section-heading section-heading-row">
+      <div class="section-heading section-heading-row" appReveal>
         <div>
           <p class="eyebrow">03 / {{ t.work.eyebrow }}</p>
           <h2 id="work-title">{{ t.work.title }}</h2>
@@ -109,7 +110,7 @@
         </p>
       </div>
 
-      <div class="project-grid">
+      <div class="project-grid" appReveal>
         @for (project of projects; track project.slug) {
           <a
             class="project-card"
@@ -142,13 +143,13 @@
       id="evolucao"
       aria-labelledby="evolution-title"
     >
-      <div class="section-heading">
+      <div class="section-heading" appReveal>
         <p class="eyebrow">04 / {{ t.evolution.eyebrow }}</p>
         <h2 id="evolution-title">{{ t.evolution.title }}</h2>
         <p>{{ t.evolution.body }}</p>
       </div>
 
-      <div class="evolution-layout">
+      <div class="evolution-layout" appReveal>
         <ol class="timeline-list">
           @for (item of timeline; track item.index) {
             <li>
@@ -190,10 +191,10 @@
       id="sobre"
       aria-labelledby="about-title"
     >
-      <div class="about-marker" aria-hidden="true">
+      <div class="about-marker" aria-hidden="true" appReveal>
         <span>BQ</span>
       </div>
-      <div class="about-copy">
+      <div class="about-copy" appReveal>
         <p class="eyebrow">05 / {{ t.about.eyebrow }}</p>
         <h2 id="about-title">{{ t.about.title }}</h2>
         <p class="about-lead">{{ t.about.body }}</p>
@@ -211,6 +212,7 @@
 
     <section
       class="contact-section"
+      appReveal
       id="contato"
       aria-labelledby="contact-title"
     >

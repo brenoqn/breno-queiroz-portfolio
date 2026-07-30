@@ -16,10 +16,11 @@ import {
   type Project,
 } from "../../../../../shared/content";
 import { WordmarkComponent } from "../components/wordmark.component";
+import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directive";
 
 @Component({
   selector: "app-case-study-page",
-  imports: [RouterLink, WordmarkComponent],
+  imports: [RevealOnScrollDirective, RouterLink, WordmarkComponent],
   templateUrl: "./case-study.page.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
