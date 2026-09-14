@@ -1,0 +1,13 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bqtech-portfolio
+    restart: unless-stopped
+    networks:
+      - bqtech-proxy
+
+networks:
+  bqtech-proxy:
+    external: true
