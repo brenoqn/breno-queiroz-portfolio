@@ -16,6 +16,10 @@ export interface Project {
   category: LocalizedText;
   title: LocalizedText;
   summary: LocalizedText;
+  status: LocalizedText;
+  technologies: string[];
+  appUrl?: string;
+  appAccess?: "public" | "protected" | "coming-soon";
   context: LocalizedText;
   role: LocalizedText;
   challenge: LocalizedText;
@@ -32,64 +36,78 @@ export interface TimelineItem {
 
 export const projects: Project[] = [
   {
-    slug: "produto-ponta-a-ponta",
+    slug: "galinheiro",
     index: "01",
     featured: true,
     category: {
-      pt: "Design + desenvolvimento",
-      en: "Design + development",
+      pt: "IoT + Automação",
+      en: "IoT + Automation",
     },
     title: {
-      pt: "Produto digital ponta a ponta",
-      en: "End-to-end digital product",
+      pt: "Galinheiro inteligente",
+      en: "Smart chicken coop",
     },
     summary: {
-      pt: "Um espaço editorial para demonstrar como estratégia, interface e engenharia podem formar uma única experiência.",
-      en: "An editorial space to demonstrate how strategy, interface, and engineering can become one experience.",
+      pt: "Sistema de monitoramento e automação ambiental integrando ESP32, sensores, MQTT e Home Assistant.",
+      en: "Environmental monitoring and automation system integrating ESP32, sensors, MQTT, and Home Assistant.",
     },
+    status: {
+      pt: "Projeto em evolução",
+      en: "Project in progress",
+    },
+    technologies: ["ESP32", "MQTT", "Home Assistant"],
+    appAccess: "protected",
     context: {
-      pt: "Este case é um modelo privado em preparação. Ele será substituído por um projeto real com contexto, restrições e autoria confirmados.",
-      en: "This case is a private work-in-progress template. It will be replaced by a real project with confirmed context, constraints, and authorship.",
+      pt: "O projeto nasceu da necessidade de acompanhar as condições ambientais de um galinheiro e permitir respostas automáticas conforme temperatura e umidade, reduzindo a dependência de intervenções manuais.",
+      en: "The project was created to monitor environmental conditions inside a chicken coop and enable automatic responses based on temperature and humidity, reducing dependence on manual intervention.",
     },
     role: {
-      pt: "Estratégia, web design e desenvolvimento full-stack",
-      en: "Strategy, web design, and full-stack development",
+      pt: "Arquitetura, firmware, integração MQTT, automação e dashboard",
+      en: "Architecture, firmware, MQTT integration, automation, and dashboard",
     },
     challenge: {
-      pt: "Traduzir um problema de produto em uma experiência clara, responsiva e tecnicamente sustentável, sem separar o raciocínio visual da execução.",
-      en: "Translate a product problem into a clear, responsive, and technically sustainable experience without separating visual thinking from execution.",
+      pt: "Construir uma arquitetura simples e confiável capaz de coletar dados ambientais, transmitir as leituras e acionar dispositivos automaticamente conforme regras de temperatura.",
+      en: "Build a simple and reliable architecture capable of collecting environmental data, transmitting readings, and automatically controlling devices according to temperature rules.",
     },
     outcome: {
-      pt: "A versão final deste case abrirá pelo resultado e conectará cada decisão visual aos critérios técnicos e de negócio que a sustentam.",
-      en: "The final version of this case will lead with the result and connect every visual decision to its supporting technical and business criteria.",
+      pt: "O protótipo integra ESP32, sensoriamento, MQTT e Home Assistant em um fluxo funcional de monitoramento e controle, servindo como base para a evolução do sistema físico.",
+      en: "The prototype integrates ESP32, sensing, MQTT, and Home Assistant into a functional monitoring and control flow, providing a foundation for the physical system's evolution.",
     },
     learning: {
-      pt: "O melhor portfólio não exibe apenas telas: ele torna decisões, limites e evolução fáceis de percorrer.",
-      en: "The strongest portfolio does not only show screens: it makes decisions, constraints, and growth easy to follow.",
+      pt: "Projetos de IoT exigem pensar hardware, comunicação, automação e observabilidade como partes de um único sistema.",
+      en: "IoT projects require hardware, communication, automation, and observability to be designed as parts of a single system.",
     },
     process: [
       {
         index: "01",
-        title: { pt: "Entender", en: "Understand" },
+        title: { pt: "Sensoriar", en: "Sense" },
         description: {
-          pt: "Objetivos, público, contexto e evidências antes da interface.",
-          en: "Goals, audience, context, and evidence before interface work.",
+          pt: "Coletar temperatura e umidade por meio do ESP32 e dos sensores ambientais.",
+          en: "Collect temperature and humidity through the ESP32 and environmental sensors.",
         },
       },
       {
         index: "02",
-        title: { pt: "Projetar", en: "Design" },
+        title: { pt: "Comunicar", en: "Communicate" },
         description: {
-          pt: "Arquitetura, linguagem visual e protótipos responsivos.",
-          en: "Architecture, visual language, and responsive prototypes.",
+          pt: "Publicar as leituras e estados dos dispositivos utilizando MQTT.",
+          en: "Publish readings and device states using MQTT.",
         },
       },
       {
         index: "03",
-        title: { pt: "Construir", en: "Build" },
+        title: { pt: "Automatizar", en: "Automate" },
         description: {
-          pt: "Código, acessibilidade, validação e refinamento contínuo.",
-          en: "Code, accessibility, validation, and continuous refinement.",
+          pt: "Aplicar regras de temperatura para controle automático da ventilação.",
+          en: "Apply temperature rules for automatic ventilation control.",
+        },
+      },
+      {
+        index: "04",
+        title: { pt: "Monitorar", en: "Monitor" },
+        description: {
+          pt: "Centralizar estados, leituras e controles em um dashboard do Home Assistant.",
+          en: "Centralize states, readings, and controls in a Home Assistant dashboard.",
         },
       },
     ],
@@ -109,6 +127,12 @@ export const projects: Project[] = [
       pt: "Um case reservado para mostrar hierarquia, direção de arte, comportamento e adaptação entre telas.",
       en: "A case reserved for hierarchy, art direction, behavior, and adaptation across screens.",
     },
+    status: {
+      pt: "Em preparação",
+      en: "In preparation",
+    },
+    technologies: [],
+    appAccess: "coming-soon",
     context: {
       pt: "Modelo editorial privado para receber um projeto real de experiência web quando imagens e detalhes estiverem disponíveis.",
       en: "Private editorial template ready for a real web experience once imagery and details are available.",
@@ -171,6 +195,12 @@ export const projects: Project[] = [
       pt: "Um registro vivo de experimentos, aprendizados e decisões que ampliam a prática de desenvolvimento.",
       en: "A living record of experiments, learnings, and decisions that expand the development practice.",
     },
+    status: {
+      pt: "Em preparação",
+      en: "In preparation",
+    },
+    technologies: [],
+    appAccess: "coming-soon",
     context: {
       pt: "Este espaço será atualizado com projetos autorais, testes técnicos e marcos verificáveis da trajetória.",
       en: "This space will be updated with self-initiated projects, technical experiments, and verifiable milestones.",
@@ -331,16 +361,25 @@ export const copy = {
     footer: "Design, desenvolvimento e evolução contínua.",
     case: {
       back: "Voltar aos projetos",
-      model: "Modelo editorial privado",
       overview: "Visão geral",
-      role: "Papel previsto",
+      role: "Papel",
+      status: "Status",
       challenge: "Desafio",
       process: "Processo",
-      outcome: "Resultado esperado",
+      stack: "Tecnologias",
+      outcome: "Resultado",
       evidence: "Métricas e evidências",
-      evidenceBody: "Nenhum número será publicado até que existam dados verificáveis e contexto suficiente.",
+      evidenceBody: "Métricas serão adicionadas quando houver dados de operação verificáveis.",
       learning: "Aprendizado",
       next: "Próximo case",
+      openSystem: "Acessar sistema",
+      protectedAccess: "Acesso protegido",
+      flow: {
+        controller: "Controlador",
+        sensors: "Sensores",
+        automation: "Automação",
+        output: "Ventilação / Janelas",
+      },
     },
   },
   en: {
@@ -418,16 +457,25 @@ export const copy = {
     footer: "Design, development, and continuous growth.",
     case: {
       back: "Back to work",
-      model: "Private editorial template",
       overview: "Overview",
-      role: "Planned role",
+      role: "Role",
+      status: "Status",
       challenge: "Challenge",
       process: "Process",
-      outcome: "Expected outcome",
+      stack: "Technologies",
+      outcome: "Outcome",
       evidence: "Metrics and evidence",
-      evidenceBody: "No number will be published until there is verifiable data and enough context.",
+      evidenceBody: "Metrics will be added when verifiable operating data is available.",
       learning: "Learning",
       next: "Next case",
+      openSystem: "Open system",
+      protectedAccess: "Protected access",
+      flow: {
+        controller: "Controller",
+        sensors: "Sensors",
+        automation: "Automation",
+        output: "Ventilation / Windows",
+      },
     },
   },
 } as const;

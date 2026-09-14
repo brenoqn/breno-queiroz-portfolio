@@ -50,8 +50,8 @@ test("serves the English Angular route", async () => {
 
 test("serves Angular case study routes in both languages", async () => {
   const [portuguese, english] = await Promise.all([
-    render("/projetos/produto-ponta-a-ponta"),
-    render("/en/projects/produto-ponta-a-ponta"),
+    render("/projetos/galinheiro"),
+    render("/en/projects/galinheiro"),
   ]);
 
   assert.equal(portuguese.status, 200);
@@ -109,4 +109,26 @@ test("ships the mapped green motion system with reduced-motion support", async (
   assert.match(ambientMotion, /prefers-reduced-motion: reduce/);
   assert.match(rotatingRole, /DESENVOLVEDOR FULL-STACK/);
   assert.match(rotatingRole, /FULL-STACK DEVELOPER/);
+});
+
+test("models the Galinheiro as a real protected IoT case", async () => {
+  const [content, template] = await Promise.all([
+    readFile(new URL("../shared/content.ts", import.meta.url), "utf8"),
+    readFile(
+      new URL(
+        "../apps/web/src/app/pages/case-study.page.html",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  ]);
+
+  assert.match(content, /slug: "galinheiro"/);
+  assert.match(content, /pt: "Projeto em evolução"/);
+  assert.match(content, /technologies: \["ESP32", "MQTT", "Home Assistant"\]/);
+  assert.match(content, /appAccess: "protected"/);
+  assert.match(template, /project\.status\[locale\]/);
+  assert.match(template, /project\.technologies/);
+  assert.match(template, /@if \(project\.appUrl; as appUrl\)/);
+  assert.doesNotMatch(template, /t\.case\.model/);
 });
