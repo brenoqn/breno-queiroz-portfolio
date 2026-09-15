@@ -298,7 +298,7 @@ export const copy = {
     },
     hero: {
       eyebrow: "Web Designer & Desenvolvedor Full-Stack",
-      title: "Eu desenho experiências e construo produtos digitais de ponta a ponta.",
+      title: "Eu desenho experiências e construo produtos digitais.",
       body: "Uno pensamento de produto, design de interfaces e desenvolvimento para transformar problemas em experiências claras, rápidas e confiáveis.",
       primary: "Ver projetos",
       secondary: "Vamos conversar",
