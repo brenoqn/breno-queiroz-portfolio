@@ -56,6 +56,7 @@ export const projects: Project[] = [
       en: "Project in progress",
     },
     technologies: ["ESP32", "MQTT", "Home Assistant"],
+    appUrl: "https://galinheiro.bqtech.com.br",
     appAccess: "protected",
     context: {
       pt: "O projeto nasceu da necessidade de acompanhar as condições ambientais de um galinheiro e permitir respostas automáticas conforme temperatura e umidade, reduzindo a dependência de intervenções manuais.",

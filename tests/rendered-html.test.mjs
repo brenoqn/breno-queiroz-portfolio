@@ -126,9 +126,16 @@ test("models the Galinheiro as a real protected IoT case", async () => {
   assert.match(content, /slug: "galinheiro"/);
   assert.match(content, /pt: "Projeto em evolução"/);
   assert.match(content, /technologies: \["ESP32", "MQTT", "Home Assistant"\]/);
+  assert.match(content, /appUrl: "https:\/\/galinheiro\.bqtech\.com\.br"/);
+  assert.equal(content.match(/appUrl:/g)?.length, 1);
   assert.match(content, /appAccess: "protected"/);
+  assert.match(content, /openSystem: "Acessar sistema"/);
+  assert.match(content, /openSystem: "Open system"/);
   assert.match(template, /project\.status\[locale\]/);
   assert.match(template, /project\.technologies/);
   assert.match(template, /@if \(project\.appUrl; as appUrl\)/);
+  assert.match(template, /\[href\]="appUrl"/);
+  assert.match(template, /target="_blank"/);
+  assert.match(template, /rel="noopener noreferrer"/);
   assert.doesNotMatch(template, /t\.case\.model/);
 });
