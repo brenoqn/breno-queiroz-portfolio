@@ -1,8 +1,30 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+const angularOutputUrl = new URL("../public/angular/", import.meta.url);
+
+async function readAngularMainBundle() {
+  const files = await readdir(angularOutputUrl, { withFileTypes: true });
+  const mainBundles = files.filter(
+    (file) => file.isFile() && /^main-[A-Za-z0-9]{8,}\.js$/.test(file.name),
+  );
+
+  assert.equal(
+    mainBundles.length,
+    1,
+    `Expected exactly one hashed Angular main bundle, found: ${mainBundles.map((file) => file.name).join(", ") || "none"}`,
+  );
+
+  return {
+    name: mainBundles[0].name,
+    content: await readFile(
+      new URL(mainBundles[0].name, angularOutputUrl),
+      "utf8",
+    ),
+  };
+}
 
 async function render(pathname) {
   const url = new URL(workerUrl);
@@ -61,8 +83,10 @@ test("serves Angular case study routes in both languages", async () => {
 });
 
 test("builds the Angular interface with bilingual portfolio content", async () => {
-  const [bundle, template, content] = await Promise.all([
-    readFile(new URL("../public/angular/main.js", import.meta.url), "utf8"),
+  const [bundle, index, bootstrap, template, content] = await Promise.all([
+    readAngularMainBundle(),
+    readFile(new URL("index.html", angularOutputUrl), "utf8"),
+    readFile(new URL("../app/AngularBootstrap.tsx", import.meta.url), "utf8"),
     readFile(
       new URL("../apps/web/src/app/pages/home.page.html", import.meta.url),
       "utf8",
@@ -70,7 +94,12 @@ test("builds the Angular interface with bilingual portfolio content", async () =
     readFile(new URL("../shared/content.ts", import.meta.url), "utf8"),
   ]);
 
-  assert.ok(bundle.length > 100_000);
+  assert.ok(bundle.content.length > 100_000);
+  assert.ok(index.includes(`/angular/${bundle.name}`));
+  assert.match(index, /\/angular\/styles-[A-Za-z0-9]{8,}\.css/);
+  assert.doesNotMatch(index, /\/angular\/(?:main\.js|styles\.css)/);
+  assert.match(bootstrap, /fetch\("\/angular\/index\.html"/);
+  assert.doesNotMatch(bootstrap, /\/angular\/main\.js/);
   assert.match(template, /app-project-visual/);
   assert.match(template, /id="projetos"/);
   assert.match(

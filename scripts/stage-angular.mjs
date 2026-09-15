@@ -13,9 +13,19 @@ await rm(destination, { force: true, recursive: true });
 await mkdir(destination, { recursive: true });
 await cp(source, destination, { recursive: true });
 
-const files = await readdir(destination);
-if (!files.includes("main.js")) {
-  throw new Error("Angular build did not emit main.js");
+const files = await readdir(destination, { withFileTypes: true });
+const mainBundles = files.filter(
+  (file) => file.isFile() && /^main-[A-Za-z0-9]{8,}\.js$/.test(file.name),
+);
+
+if (mainBundles.length === 0) {
+  throw new Error("Angular build did not emit a hashed main-*.js bundle");
+}
+
+if (mainBundles.length > 1) {
+  throw new Error(
+    `Angular build emitted ambiguous main bundles: ${mainBundles.map((file) => file.name).join(", ")}`,
+  );
 }
 
 console.log(`Angular bundle staged with ${files.length} top-level files.`);
