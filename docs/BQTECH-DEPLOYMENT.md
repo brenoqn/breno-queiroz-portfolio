@@ -14,9 +14,8 @@ usam subdomínios próprios:
 - `memoriar.bqtech.com.br`: aplicação Memoriar, com frontend e API próprios.
 
 Os cases e os sistemas são responsabilidades distintas. Um case pode ser público sem expor
-administração, credenciais ou detalhes internos do sistema correspondente. No estado reconciliado
-em 2026-09-16, somente o Galinheiro está representado como projeto real no conteúdo do portal;
-Garage e Memoriar ainda não possuem cases próprios neste repositório.
+administração, credenciais ou detalhes internos do sistema correspondente. Galinheiro, Garage e
+Memoriar possuem cases próprios e links para seus sistemas operacionais no portal.
 
 ## Fluxo de tráfego
 

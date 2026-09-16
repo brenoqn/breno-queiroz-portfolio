@@ -9,6 +9,12 @@ export interface ProcessStep {
   description: LocalizedText;
 }
 
+export interface ProjectFlowStep {
+  index: string;
+  label: LocalizedText;
+  value: LocalizedText;
+}
+
 export interface Project {
   slug: string;
   index: string;
@@ -26,6 +32,7 @@ export interface Project {
   outcome: LocalizedText;
   learning: LocalizedText;
   process: ProcessStep[];
+  coverFlow: ProjectFlowStep[];
 }
 
 export interface TimelineItem {
@@ -112,140 +119,278 @@ export const projects: Project[] = [
         },
       },
     ],
-  },
-  {
-    slug: "experiencia-web-responsiva",
-    index: "02",
-    category: {
-      pt: "Web design",
-      en: "Web design",
-    },
-    title: {
-      pt: "Experiência web responsiva",
-      en: "Responsive web experience",
-    },
-    summary: {
-      pt: "Um case reservado para mostrar hierarquia, direção de arte, comportamento e adaptação entre telas.",
-      en: "A case reserved for hierarchy, art direction, behavior, and adaptation across screens.",
-    },
-    status: {
-      pt: "Em preparação",
-      en: "In preparation",
-    },
-    technologies: [],
-    appAccess: "coming-soon",
-    context: {
-      pt: "Modelo editorial privado para receber um projeto real de experiência web quando imagens e detalhes estiverem disponíveis.",
-      en: "Private editorial template ready for a real web experience once imagery and details are available.",
-    },
-    role: {
-      pt: "Direção visual, UX e implementação de interface",
-      en: "Visual direction, UX, and interface implementation",
-    },
-    challenge: {
-      pt: "Preservar intenção, legibilidade e ritmo do desktop ao mobile, tratando responsividade como parte do design.",
-      en: "Preserve intent, legibility, and rhythm from desktop to mobile by treating responsiveness as part of the design.",
-    },
-    outcome: {
-      pt: "O case final mostrará comparações entre breakpoints, decisões de conteúdo e o comportamento dos componentes.",
-      en: "The final case will show breakpoint comparisons, content decisions, and component behavior.",
-    },
-    learning: {
-      pt: "Responsividade não é redução: é uma nova composição com as mesmas prioridades.",
-      en: "Responsiveness is not reduction: it is a new composition with the same priorities.",
-    },
-    process: [
+    coverFlow: [
       {
         index: "01",
-        title: { pt: "Hierarquia", en: "Hierarchy" },
-        description: {
-          pt: "Definir o que precisa ser percebido primeiro.",
-          en: "Define what needs to be perceived first.",
-        },
+        label: { pt: "Controlador", en: "Controller" },
+        value: { pt: "ESP32", en: "ESP32" },
       },
       {
         index: "02",
-        title: { pt: "Sistema", en: "System" },
-        description: {
-          pt: "Transformar decisões em tokens e componentes reutilizáveis.",
-          en: "Turn decisions into reusable tokens and components.",
-        },
+        label: { pt: "Entrada", en: "Input" },
+        value: { pt: "Sensores", en: "Sensors" },
       },
       {
         index: "03",
-        title: { pt: "Adaptação", en: "Adaptation" },
-        description: {
-          pt: "Recompor cada breakpoint sem perder clareza.",
-          en: "Recompose each breakpoint without losing clarity.",
+        label: { pt: "Protocolo", en: "Protocol" },
+        value: { pt: "MQTT", en: "MQTT" },
+      },
+      {
+        index: "04",
+        label: { pt: "Central", en: "Hub" },
+        value: { pt: "Home Assistant", en: "Home Assistant" },
+      },
+      {
+        index: "05",
+        label: { pt: "Lógica", en: "Logic" },
+        value: { pt: "Automação", en: "Automation" },
+      },
+      {
+        index: "06",
+        label: { pt: "Saída", en: "Output" },
+        value: {
+          pt: "Ventilação / Janelas",
+          en: "Ventilation / Windows",
         },
       },
     ],
   },
   {
-    slug: "laboratorio-de-evolucao",
-    index: "03",
+    slug: "garage",
+    index: "02",
     category: {
-      pt: "Full-stack + laboratório",
-      en: "Full-stack + lab",
+      pt: "PWA + Produto pessoal",
+      en: "PWA + Personal product",
     },
     title: {
-      pt: "Laboratório de evolução",
-      en: "Growth laboratory",
+      pt: "Garage",
+      en: "Garage",
     },
     summary: {
-      pt: "Um registro vivo de experimentos, aprendizados e decisões que ampliam a prática de desenvolvimento.",
-      en: "A living record of experiments, learnings, and decisions that expand the development practice.",
+      pt: "PWA local-first para organizar manutenção, uso e histórico da Honda NX200 com dados sob controle do próprio usuário.",
+      en: "A local-first PWA for organizing Honda NX200 maintenance, usage, and history while keeping data under the user's control.",
     },
     status: {
-      pt: "Em preparação",
-      en: "In preparation",
+      pt: "Em produção",
+      en: "Live in production",
     },
-    technologies: [],
-    appAccess: "coming-soon",
+    technologies: [
+      "Angular",
+      "TypeScript",
+      "Angular Service Worker",
+      "LocalStorage",
+    ],
+    appUrl: "https://garage.bqtech.com.br",
+    appAccess: "public",
     context: {
-      pt: "Este espaço será atualizado com projetos autorais, testes técnicos e marcos verificáveis da trajetória.",
-      en: "This space will be updated with self-initiated projects, technical experiments, and verifiable milestones.",
+      pt: "O Garage nasceu como uma ferramenta pessoal para reunir manutenção, histórico, abastecimentos e conteúdo técnico da Honda NX200 em um único lugar, sem depender de contas ou serviços remotos.",
+      en: "Garage began as a personal tool to bring Honda NX200 maintenance, history, fuel records, and technical content into one place without relying on accounts or remote services.",
     },
     role: {
-      pt: "Pesquisa, prototipagem e desenvolvimento",
-      en: "Research, prototyping, and development",
+      pt: "Produto, experiência, arquitetura front-end, implementação e publicação",
+      en: "Product, experience, front-end architecture, implementation, and delivery",
     },
     challenge: {
-      pt: "Apresentar evolução sem transformar o portfólio em uma lista de ferramentas ou alegações sem contexto.",
-      en: "Present growth without turning the portfolio into a list of tools or context-free claims.",
+      pt: "Criar uma experiência confiável e instalável que funcionasse sem backend, preservasse os dados no navegador e ainda permitisse ao usuário transportar seu histórico entre origens.",
+      en: "Create a reliable, installable experience that works without a backend, keeps data in the browser, and still lets the user move their history between origins.",
     },
     outcome: {
-      pt: "Cada entrada futura conectará o que foi explorado, o que mudou na prática e a evidência disponível.",
-      en: "Each future entry will connect what was explored, what changed in practice, and the available evidence.",
+      pt: "A aplicação está publicada como PWA no ecossistema BQTECH, persiste o estado no schema 4 pela chave garage_state e oferece exportação e importação de backup JSON para dar portabilidade aos dados.",
+      en: "The application is live as a PWA in the BQTECH ecosystem, persists schema 4 state under the garage_state key, and provides JSON backup export and import for data portability.",
     },
     learning: {
-      pt: "Evolução ganha credibilidade quando aparece como processo documentado, não como porcentagem arbitrária.",
-      en: "Growth gains credibility when shown as a documented process rather than an arbitrary percentage.",
+      pt: "Uma arquitetura local-first só é realmente simples quando seus limites ficam claros e a portabilidade dos dados faz parte do produto desde o início.",
+      en: "A local-first architecture is only truly simple when its boundaries are clear and data portability is designed into the product from the start.",
     },
     process: [
       {
         index: "01",
-        title: { pt: "Explorar", en: "Explore" },
+        title: { pt: "Modelar", en: "Model" },
         description: {
-          pt: "Escolher uma pergunta técnica ou de produto concreta.",
-          en: "Choose a concrete technical or product question.",
+          pt: "Estruturar histórico, manutenção e registros em um estado versionado com migrações verificáveis.",
+          en: "Structure history, maintenance, and records in a versioned state with verifiable migrations.",
         },
       },
       {
         index: "02",
-        title: { pt: "Experimentar", en: "Experiment" },
+        title: { pt: "Persistir", en: "Persist" },
         description: {
-          pt: "Construir o menor artefato capaz de produzir evidência.",
-          en: "Build the smallest artifact capable of producing evidence.",
+          pt: "Manter os dados no LocalStorage da origem, sem login, backend ou banco remoto.",
+          en: "Keep data in the origin's LocalStorage without login, backend, or a remote database.",
         },
       },
       {
         index: "03",
-        title: { pt: "Documentar", en: "Document" },
+        title: { pt: "Transportar", en: "Make portable" },
         description: {
-          pt: "Registrar decisões, limites e próximos passos.",
-          en: "Record decisions, limits, and next steps.",
+          pt: "Permitir exportação e importação JSON com validação para mover o histórico entre navegadores e origens.",
+          en: "Provide validated JSON export and import to move history between browsers and origins.",
         },
+      },
+      {
+        index: "04",
+        title: { pt: "Publicar", en: "Deliver" },
+        description: {
+          pt: "Ativar instalação e uso offline com Angular Service Worker e publicar a PWA na BQTECH.",
+          en: "Enable installation and offline use with Angular Service Worker and publish the PWA on BQTECH.",
+        },
+      },
+    ],
+    coverFlow: [
+      {
+        index: "01",
+        label: { pt: "Interface", en: "Interface" },
+        value: { pt: "Angular", en: "Angular" },
+      },
+      {
+        index: "02",
+        label: { pt: "PWA", en: "PWA" },
+        value: {
+          pt: "Angular Service Worker",
+          en: "Angular Service Worker",
+        },
+      },
+      {
+        index: "03",
+        label: { pt: "Estado local", en: "Local state" },
+        value: { pt: "LocalStorage", en: "LocalStorage" },
+      },
+      {
+        index: "04",
+        label: { pt: "Estrutura", en: "Structure" },
+        value: { pt: "garage_state / v4", en: "garage_state / v4" },
+      },
+      {
+        index: "05",
+        label: { pt: "Portabilidade", en: "Portability" },
+        value: { pt: "Backup JSON", en: "JSON backup" },
+      },
+      {
+        index: "06",
+        label: { pt: "Produção", en: "Production" },
+        value: { pt: "BQTECH", en: "BQTECH" },
+      },
+    ],
+  },
+  {
+    slug: "memoriar",
+    index: "03",
+    category: {
+      pt: "Full-stack + Produto",
+      en: "Full-stack + Product",
+    },
+    title: {
+      pt: "Memoriar",
+      en: "Memoriar",
+    },
+    summary: {
+      pt: "Sistema web para consulta pública e gestão administrativa de registros cemiteriais, com frontend e API independentes.",
+      en: "A web system for public search and administrative management of cemetery records, with independent frontend and API layers.",
+    },
+    status: {
+      pt: "Em produção",
+      en: "Live in production",
+    },
+    technologies: [
+      "Angular",
+      "Node.js",
+      "Express",
+      "TypeScript",
+      "@memoriar/shared",
+      "Supabase",
+      "Docker",
+    ],
+    appUrl: "https://memoriar.bqtech.com.br",
+    appAccess: "public",
+    context: {
+      pt: "O Memoriar reúne uma busca pública e uma área administrativa para organizar registros e localizações cemiteriais, separando a experiência aberta das operações autenticadas.",
+      en: "Memoriar combines public search with an administrative area for organizing cemetery records and locations, separating the open experience from authenticated operations.",
+    },
+    role: {
+      pt: "Arquitetura full-stack, contratos compartilhados, front-end, API, containerização e publicação",
+      en: "Full-stack architecture, shared contracts, frontend, API, containerization, and delivery",
+    },
+    challenge: {
+      pt: "Conectar busca pública, administração e persistência externa sem publicar o backend diretamente, mantendo uma API same-origin e contratos consistentes entre as camadas.",
+      en: "Connect public search, administration, and external persistence without exposing the backend directly, while keeping a same-origin API and consistent contracts across layers.",
+    },
+    outcome: {
+      pt: "O sistema está publicado na BQTECH com Angular servido por Nginx, API Node.js e Express integrada ao Supabase, health endpoint e imagens Docker separadas para web e API.",
+      en: "The system is live on BQTECH with Angular served by Nginx, a Node.js and Express API integrated with Supabase, a health endpoint, and separate Docker images for web and API.",
+    },
+    learning: {
+      pt: "Separar interface, API e contratos compartilhados torna a evolução mais previsível quando cada limite também é validado no build, no container e no deploy.",
+      en: "Separating interface, API, and shared contracts makes change more predictable when every boundary is also validated in the build, container, and deployment flow.",
+    },
+    process: [
+      {
+        index: "01",
+        title: { pt: "Contratar", en: "Define contracts" },
+        description: {
+          pt: "Centralizar tipos compartilhados em @memoriar/shared para alinhar frontend e backend.",
+          en: "Centralize shared types in @memoriar/shared to align the frontend and backend.",
+        },
+      },
+      {
+        index: "02",
+        title: { pt: "Separar", en: "Separate" },
+        description: {
+          pt: "Organizar busca pública e administração no Angular, consumindo a API pelo mesmo domínio.",
+          en: "Organize public search and administration in Angular while consuming the API through the same origin.",
+        },
+      },
+      {
+        index: "03",
+        title: { pt: "Integrar", en: "Integrate" },
+        description: {
+          pt: "Manter regras na API Node.js e Express e acessar os dados externos pelo cliente Supabase.",
+          en: "Keep application rules in the Node.js and Express API and access external data through the Supabase client.",
+        },
+      },
+      {
+        index: "04",
+        title: { pt: "Entregar", en: "Ship" },
+        description: {
+          pt: "Construir imagens web e API, publicar no GHCR e atualizar a infraestrutura BQTECH de forma automatizada.",
+          en: "Build web and API images, publish them to GHCR, and update the BQTECH infrastructure through automation.",
+        },
+      },
+    ],
+    coverFlow: [
+      {
+        index: "01",
+        label: { pt: "Frontend", en: "Frontend" },
+        value: { pt: "Angular", en: "Angular" },
+      },
+      {
+        index: "02",
+        label: { pt: "Same-origin", en: "Same-origin" },
+        value: { pt: "/api", en: "/api" },
+      },
+      {
+        index: "03",
+        label: { pt: "Backend", en: "Backend" },
+        value: { pt: "Node.js + Express", en: "Node.js + Express" },
+      },
+      {
+        index: "04",
+        label: { pt: "Contratos", en: "Contracts" },
+        value: { pt: "@memoriar/shared", en: "@memoriar/shared" },
+      },
+      {
+        index: "05",
+        label: { pt: "Dados", en: "Data" },
+        value: { pt: "Supabase", en: "Supabase" },
+      },
+      {
+        index: "06",
+        label: { pt: "Containers", en: "Containers" },
+        value: { pt: "Web + API", en: "Web + API" },
+      },
+      {
+        index: "07",
+        label: { pt: "Produção", en: "Production" },
+        value: { pt: "BQTECH", en: "BQTECH" },
       },
     ],
   },
@@ -330,20 +475,20 @@ export const copy = {
     ],
     work: {
       eyebrow: "Projetos selecionados",
-      title: "Cases preparados para mostrar raciocínio, processo e resultado.",
-      note: "Preview privado · Conteúdo editorial em preparação",
+      title: "Projetos reais, do hardware ao produto web.",
+      note: "Cases públicos · Sistemas em produção e evolução",
       open: "Abrir case",
     },
     evolution: {
       eyebrow: "Evolução",
       title: "Aprender, aplicar, observar e melhorar.",
-      body: "A trajetória será apresentada com marcos e evidências reais. Nesta primeira versão, o sistema mostra como cada etapa será organizada, sem porcentagens ou números inventados.",
+      body: "A trajetória conecta projetos reais a decisões de produto, arquitetura e implementação, sem porcentagens ou números inventados.",
       panelLabel: "Estado atual",
       panelValue: "Em evolução",
       panelRows: [
         ["Método", "Prática contínua"],
-        ["Evidências", "Em curadoria"],
-        ["Próxima etapa", "Cases reais"],
+        ["Evidências", "Projetos publicados"],
+        ["Próxima etapa", "Aprofundar os cases"],
       ],
     },
     about: {
@@ -356,7 +501,7 @@ export const copy = {
     contact: {
       eyebrow: "Próximo passo",
       title: "Tem um produto ou desafio em mente?",
-      body: "O canal público de contato será ativado antes da publicação. Por enquanto, este preview permanece privado para revisão e evolução conjunta.",
+      body: "O canal público de contato está em preparação. Enquanto isso, os projetos e suas decisões continuam documentados por aqui.",
       status: "Contato em preparação",
     },
     footer: "Design, desenvolvimento e evolução contínua.",
@@ -375,12 +520,6 @@ export const copy = {
       next: "Próximo case",
       openSystem: "Acessar sistema",
       protectedAccess: "Acesso protegido",
-      flow: {
-        controller: "Controlador",
-        sensors: "Sensores",
-        automation: "Automação",
-        output: "Ventilação / Janelas",
-      },
     },
   },
   en: {
@@ -426,20 +565,20 @@ export const copy = {
     ],
     work: {
       eyebrow: "Selected work",
-      title: "Cases designed to show thinking, process, and outcome.",
-      note: "Private preview · Editorial content in progress",
+      title: "Real projects, from hardware to web products.",
+      note: "Public cases · Systems live and evolving",
       open: "Open case",
     },
     evolution: {
       eyebrow: "Growth",
       title: "Learn, apply, observe, and improve.",
-      body: "The journey will be presented with real milestones and evidence. In this first version, the system shows how every step will be organized, without invented percentages or numbers.",
+      body: "The journey connects real projects to product, architecture, and implementation decisions without invented percentages or numbers.",
       panelLabel: "Current state",
       panelValue: "In progress",
       panelRows: [
         ["Method", "Continuous practice"],
-        ["Evidence", "Being curated"],
-        ["Next step", "Real case studies"],
+        ["Evidence", "Published projects"],
+        ["Next step", "Deepen the cases"],
       ],
     },
     about: {
@@ -452,7 +591,7 @@ export const copy = {
     contact: {
       eyebrow: "Next step",
       title: "Have a product or challenge in mind?",
-      body: "The public contact channel will be enabled before release. For now, this preview remains private for review and shared iteration.",
+      body: "The public contact channel is being prepared. In the meantime, the projects and their decisions remain documented here.",
       status: "Contact in progress",
     },
     footer: "Design, development, and continuous growth.",
@@ -471,12 +610,6 @@ export const copy = {
       next: "Next case",
       openSystem: "Open system",
       protectedAccess: "Protected access",
-      flow: {
-        controller: "Controller",
-        sensors: "Sensors",
-        automation: "Automation",
-        output: "Ventilation / Windows",
-      },
     },
   },
 } as const;

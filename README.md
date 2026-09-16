@@ -1,8 +1,7 @@
 # Portfólio Breno Queiroz
 
 Portal público bilíngue e editorial da BQTECH, apresentando Breno Queiroz como Web Designer e
-Desenvolvedor Full-Stack. O Galinheiro inteligente já é um case real; os demais espaços
-editoriais continuam identificados como conteúdo em preparação.
+Desenvolvedor Full-Stack por meio dos cases reais Galinheiro, Garage e Memoriar.
 
 ## Arquitetura
 

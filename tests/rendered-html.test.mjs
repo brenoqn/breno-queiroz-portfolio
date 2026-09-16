@@ -70,16 +70,19 @@ test("serves the English Angular route", async () => {
   assert.match(html, /lang="en"/);
 });
 
-test("serves Angular case study routes in both languages", async () => {
-  const [portuguese, english] = await Promise.all([
-    render("/projetos/galinheiro"),
-    render("/en/projects/galinheiro"),
-  ]);
+test("serves every Angular case study route in both languages", async () => {
+  const slugs = ["galinheiro", "garage", "memoriar"];
+  const responses = await Promise.all(
+    slugs.flatMap((slug) => [
+      render(`/projetos/${slug}`),
+      render(`/en/projects/${slug}`),
+    ]),
+  );
 
-  assert.equal(portuguese.status, 200);
-  assert.equal(english.status, 200);
-  assert.match(await portuguese.text(), /data-runtime="angular"/);
-  assert.match(await english.text(), /data-runtime="angular"/);
+  for (const response of responses) {
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), /data-runtime="angular"/);
+  }
 });
 
 test("builds the Angular interface with bilingual portfolio content", async () => {
@@ -140,7 +143,7 @@ test("ships the mapped green motion system with reduced-motion support", async (
   assert.match(rotatingRole, /FULL-STACK DEVELOPER/);
 });
 
-test("models the Galinheiro as a real protected IoT case", async () => {
+test("models the three BQTECH systems as real public cases", async () => {
   const [content, template] = await Promise.all([
     readFile(new URL("../shared/content.ts", import.meta.url), "utf8"),
     readFile(
@@ -156,8 +159,19 @@ test("models the Galinheiro as a real protected IoT case", async () => {
   assert.match(content, /pt: "Projeto em evolução"/);
   assert.match(content, /technologies: \["ESP32", "MQTT", "Home Assistant"\]/);
   assert.match(content, /appUrl: "https:\/\/galinheiro\.bqtech\.com\.br"/);
-  assert.equal(content.match(/appUrl:/g)?.length, 1);
   assert.match(content, /appAccess: "protected"/);
+  assert.match(content, /slug: "garage"/);
+  assert.match(content, /technologies: \[/);
+  assert.match(content, /appUrl: "https:\/\/garage\.bqtech\.com\.br"/);
+  assert.match(content, /slug: "memoriar"/);
+  assert.match(content, /@memoriar\/shared/);
+  assert.match(content, /appUrl: "https:\/\/memoriar\.bqtech\.com\.br"/);
+  assert.equal(content.match(/appUrl:/g)?.length, 3);
+  assert.equal(content.match(/appAccess: "public"/g)?.length, 2);
+  assert.doesNotMatch(content, /experiencia-web-responsiva/);
+  assert.doesNotMatch(content, /laboratorio-de-evolucao/);
+  assert.doesNotMatch(content, /Modelo editorial privado/);
+  assert.doesNotMatch(content, /Private editorial template/);
   assert.match(content, /openSystem: "Acessar sistema"/);
   assert.match(content, /openSystem: "Open system"/);
   assert.match(template, /project\.status\[locale\]/);
@@ -166,5 +180,7 @@ test("models the Galinheiro as a real protected IoT case", async () => {
   assert.match(template, /\[href\]="appUrl"/);
   assert.match(template, /target="_blank"/);
   assert.match(template, /rel="noopener noreferrer"/);
+  assert.match(template, /project\.coverFlow/);
+  assert.doesNotMatch(template, /DESIGN|BUILD|EVOLVE/);
   assert.doesNotMatch(template, /t\.case\.model/);
 });

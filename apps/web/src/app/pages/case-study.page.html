@@ -38,51 +38,17 @@
             <span></span>
             <span>{{ project.index }}</span>
           </div>
-          @if (project.slug === "galinheiro") {
-            <ol class="case-system-flow">
-              <li>
-                <span>01 / {{ t.case.flow.controller }}</span>
-                <strong>ESP32</strong>
-                <i>↓</i>
+          <ol class="case-system-flow">
+            @for (step of project.coverFlow; track step.index; let last = $last) {
+              <li [class.case-system-output]="last">
+                <span>{{ step.index }} / {{ step.label[locale] }}</span>
+                <strong>{{ step.value[locale] }}</strong>
+                @if (!last) {
+                  <i>↓</i>
+                }
               </li>
-              <li>
-                <span>02 / INPUT</span>
-                <strong>{{ t.case.flow.sensors }}</strong>
-                <i>↓</i>
-              </li>
-              <li>
-                <span>03 / PROTOCOL</span>
-                <strong>MQTT</strong>
-                <i>↓</i>
-              </li>
-              <li>
-                <span>04 / HUB</span>
-                <strong>Home Assistant</strong>
-                <i>↓</i>
-              </li>
-              <li>
-                <span>05 / LOGIC</span>
-                <strong>{{ t.case.flow.automation }}</strong>
-                <i>↓</i>
-              </li>
-              <li class="case-system-output">
-                <span>06 / OUTPUT</span>
-                <strong>{{ t.case.flow.output }}</strong>
-              </li>
-            </ol>
-          } @else {
-            <div class="case-cover-title">
-              <span>DESIGN</span>
-              <span>BUILD</span>
-              <span>EVOLVE</span>
-            </div>
-            <div class="case-cover-grid">
-              <i></i>
-              <i></i>
-              <i></i>
-              <i></i>
-            </div>
-          }
+            }
+          </ol>
         </div>
       </div>
     </section>
