@@ -1,6 +1,8 @@
 # Portfólio Breno Queiroz
 
-Portfólio bilíngue e editorial de Breno Queiroz, apresentado como Web Designer e Desenvolvedor Full-Stack. A versão atual é um preview privado com conteúdo-modelo: projetos, métricas e contatos reais serão adicionados antes da publicação.
+Portal público bilíngue e editorial da BQTECH, apresentando Breno Queiroz como Web Designer e
+Desenvolvedor Full-Stack. O Galinheiro inteligente já é um case real; os demais espaços
+editoriais continuam identificados como conteúdo em preparação.
 
 ## Arquitetura
 
@@ -10,6 +12,7 @@ Portfólio bilíngue e editorial de Breno Queiroz, apresentado como Web Designer
 - `scripts/stage-angular.mjs`: prepara o bundle Angular para a camada de hospedagem.
 
 O front-end não depende de banco de dados, autenticação, CMS, analytics ou formulário funcional nesta etapa.
+Em produção, o `Dockerfile` gera somente o frontend Angular e o serve com Nginx.
 
 ## Rotas
 
@@ -45,4 +48,8 @@ O build completo gera o Angular, prepara seus artefatos e compila a camada vinex
 
 ## Conteúdo público
 
-A publicação pública só deve acontecer depois que projetos, resultados, métricas, links profissionais e um canal de contato forem confirmados. Campos incompletos permanecem ocultos e nenhum dado de credibilidade deve ser inventado.
+Campos incompletos permanecem ocultos e nenhum dado de credibilidade deve ser inventado. Links
+para sistemas reais só são exibidos quando estiverem explicitamente configurados no conteúdo.
+
+A visão do ecossistema, os limites entre repositório e infraestrutura privada e o fluxo de
+entrega estão em [docs/BQTECH-DEPLOYMENT.md](docs/BQTECH-DEPLOYMENT.md).
