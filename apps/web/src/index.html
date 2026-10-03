@@ -6,6 +6,28 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#050806" />
+    <script>
+      (() => {
+        const storageKey = "bqtech-theme";
+        const fallbackTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem(storageKey);
+          const theme = storedTheme === "light" || storedTheme === "dark"
+            ? storedTheme
+            : fallbackTheme;
+
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", theme === "light" ? "#f4f7f2" : "#050806");
+        } catch {
+          document.documentElement.dataset.theme = fallbackTheme;
+          document.documentElement.style.colorScheme = fallbackTheme;
+        }
+      })();
+    </script>
     <meta
       name="description"
       content="Web design, desenvolvimento full-stack e evolução contínua."

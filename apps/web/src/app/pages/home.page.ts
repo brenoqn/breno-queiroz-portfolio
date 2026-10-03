@@ -7,15 +7,17 @@ import {
 import { Meta, Title } from "@angular/platform-browser";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import {
-  copy,
+  capabilityGroups,
+  experience,
+  homeHref,
   projectHref,
   projects,
-  timeline,
+  v2Copy,
   type Locale,
 } from "../../../../../shared/content";
 import { ProjectVisualComponent } from "../components/project-visual.component";
 import { RotatingRoleComponent } from "../components/rotating-role.component";
-import { WordmarkComponent } from "../components/wordmark.component";
+import { SiteHeaderComponent } from "../components/site-header.component";
 import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directive";
 
 @Component({
@@ -25,7 +27,7 @@ import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directiv
     RevealOnScrollDirective,
     RotatingRoleComponent,
     RouterLink,
-    WordmarkComponent,
+    SiteHeaderComponent,
   ],
   templateUrl: "./home.page.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,27 +41,32 @@ export class HomePage {
   readonly locale: Locale =
     this.route.snapshot.data["locale"] === "en" ? "en" : "pt";
   readonly projects = projects;
-  readonly t = copy[this.locale];
-  readonly timeline = timeline;
+  readonly experience = experience.filter((item) => item.published);
+  readonly capabilityGroups = capabilityGroups;
+  readonly t = v2Copy[this.locale];
+  readonly email = "brenoqn01@gmail.com";
+  readonly linkedinUrl = "https://www.linkedin.com/in/brenoqn/";
+  readonly githubUrl = "https://github.com/brenoqn";
+  readonly resumeUrl: string | null = null;
 
   constructor() {
     this.document.documentElement.lang = this.t.htmlLang;
     this.title.setTitle(
       this.locale === "pt"
-        ? "Breno Queiroz — Web Designer & Desenvolvedor Full-Stack"
-        : "Breno Queiroz — Web Designer & Full-Stack Developer",
+        ? "Breno Queiroz — Software Engineer"
+        : "Breno Queiroz — Software Engineer",
     );
     this.meta.updateTag({
       name: "description",
       content:
         this.locale === "pt"
-          ? "Portfólio de Breno Queiroz: web design, desenvolvimento full-stack e evolução contínua."
-          : "Breno Queiroz's portfolio: web design, full-stack development, and continuous growth.",
+          ? "Software Engineer em Uberlândia. Produtos digitais, UX e engenharia da ideia à produção."
+          : "Software Engineer based in Uberlândia. Digital products, UX, and engineering from idea to production.",
     });
   }
 
-  get languagePath(): string {
-    return this.locale === "pt" ? "/en" : "/";
+  get homePath(): string {
+    return homeHref(this.locale);
   }
 
   projectPath(slug: string): string {

@@ -1,11 +1,11 @@
 <div class="case-shell" [attr.lang]="t.htmlLang">
-  <header class="case-header">
-    <app-wordmark [locale]="locale" />
+  <app-site-header [locale]="locale" [currentProjectSlug]="project.slug" />
+  <div class="case-header">
     <a class="back-link" [routerLink]="backPath" fragment="projetos">
       <span aria-hidden="true">←</span>
       {{ t.case.back }}
     </a>
-  </header>
+  </div>
 
   <main>
     <section class="case-hero">
@@ -20,6 +20,12 @@
           {{ project.status[locale] }}
         </div>
         @if (project.appUrl; as appUrl) {
+          @if (project.appAccess === "protected") {
+            <p class="case-access-note">
+              <span aria-hidden="true"></span>
+              {{ t.case.protectedAccess }}
+            </p>
+          }
           <a
             class="button button-primary case-app-cta"
             [href]="appUrl"
@@ -53,33 +59,92 @@
       </div>
     </section>
 
+    <section
+      class="case-stage"
+      [attr.aria-label]="t.case.status + ' / ' + t.case.currentState"
+      appReveal
+    >
+      <div class="case-stage-status">
+        <span>{{ t.case.status }}</span>
+        <strong>{{ project.status[locale] }}</strong>
+        <p>{{ project.statusDescription[locale] }}</p>
+      </div>
+      <div class="case-stage-current">
+        <span>{{ t.case.current }}</span>
+        <p>{{ project.currentState[locale] }}</p>
+      </div>
+    </section>
+
     <section class="case-facts" [attr.aria-label]="t.case.overview" appReveal>
       <div>
-        <span>{{ t.case.overview }}</span>
+        <span>{{ t.case.problem }}</span>
+        <p>{{ project.problem[locale] }}</p>
+      </div>
+      <div>
+        <span>{{ t.case.context }}</span>
         <p>{{ project.context[locale] }}</p>
       </div>
       <div>
         <span>{{ t.case.role }}</span>
         <p>{{ project.role[locale] }}</p>
       </div>
-      <div>
-        <span>{{ t.case.status }}</span>
-        <p>{{ project.status[locale] }}</p>
-      </div>
     </section>
 
-    <section class="case-section case-section-split" appReveal>
-      <p class="eyebrow">01 / {{ t.case.challenge }}</p>
-      <div>
-        <h2>{{ t.case.challenge }}</h2>
-        <p class="case-lead">{{ project.challenge[locale] }}</p>
+    @if (project.constraints.length > 0) {
+      <section class="case-section case-section-split" appReveal>
+        <p class="eyebrow">01 / {{ t.case.constraints }}</p>
+        <div>
+          <h2>{{ t.case.constraints }}</h2>
+          <ul class="case-editorial-list">
+            @for (constraint of project.constraints; track constraint.pt) {
+              <li>{{ constraint[locale] }}</li>
+            }
+          </ul>
+        </div>
+      </section>
+    }
+
+    <section class="case-section case-architecture" appReveal>
+      <div class="case-section-head">
+        <p class="eyebrow">02 / {{ t.case.architecture }}</p>
+        <h2>{{ t.case.architecture }}</h2>
       </div>
+      <p class="case-lead">{{ project.architectureSummary[locale] }}</p>
+      <ol class="case-architecture-flow" [attr.aria-label]="t.case.architecture">
+        @for (step of project.coverFlow; track step.index; let last = $last) {
+          <li>
+            <span>{{ step.label[locale] }}</span>
+            <strong>{{ step.value[locale] }}</strong>
+            @if (!last) {
+              <i aria-hidden="true">→</i>
+            }
+          </li>
+        }
+      </ol>
     </section>
+
+    @if (project.decisions.length > 0) {
+      <section class="case-section" appReveal>
+        <div class="case-section-head">
+          <p class="eyebrow">03 / {{ t.case.decisions }}</p>
+          <h2>{{ t.case.decisions }}</h2>
+        </div>
+        <div class="case-decision-list">
+          @for (decision of project.decisions; track decision.index) {
+            <article>
+              <span>{{ decision.index }}</span>
+              <h3>{{ decision.title[locale] }}</h3>
+              <p>{{ decision.description[locale] }}</p>
+            </article>
+          }
+        </div>
+      </section>
+    }
 
     <section class="case-section" appReveal>
       <div class="case-section-head">
-        <p class="eyebrow">02 / {{ t.case.process }}</p>
-        <h2>{{ t.case.process }}</h2>
+        <p class="eyebrow">04 / {{ t.case.implementation }}</p>
+        <h2>{{ t.case.implementation }}</h2>
       </div>
       <div class="case-process-grid">
         @for (step of project.process; track step.index) {
@@ -95,42 +160,94 @@
     @if (project.technologies.length > 0) {
       <section class="case-section case-stack-section" appReveal>
         <div class="case-section-head">
-          <p class="eyebrow">03 / {{ t.case.stack }}</p>
+          <p class="eyebrow">05 / {{ t.case.stack }}</p>
           <h2>{{ t.case.stack }}</h2>
         </div>
-        <div class="case-process-grid case-stack-grid">
+        <ol class="case-stack-list" [attr.aria-label]="t.case.stack">
           @for (technology of project.technologies; track technology; let index = $index) {
-            <article>
-              <span>0{{ index + 1 }}</span>
-              <h3>{{ technology }}</h3>
-            </article>
+            <li>
+              <span>{{ index + 1 < 10 ? "0" + (index + 1) : index + 1 }}</span>
+              <strong [innerHTML]="technology.replace('/', '/<wbr>')"></strong>
+            </li>
           }
-        </div>
+        </ol>
       </section>
     }
 
+    <section
+      class="case-section case-evidence-section"
+      [class.case-evidence-no-visual]="!project.visual"
+      appReveal
+    >
+      @if (project.visual; as visual) {
+        <figure class="case-evidence-visual">
+          <img
+            [src]="visual.src"
+            [alt]="visual.alt[locale]"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      }
+      <div class="case-evidence-copy">
+        <p class="eyebrow">06 / {{ t.case.evidence }}</p>
+        <h2>{{ t.case.evidence }}</h2>
+        <ul class="case-editorial-list">
+          @for (item of project.evidence; track item.pt) {
+            <li>{{ item[locale] }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
     <section class="case-section outcome-section" appReveal>
       <div>
-        <p class="eyebrow">
-          {{ project.technologies.length > 0 ? "04" : "03" }} /
-          {{ t.case.outcome }}
-        </p>
+        <p class="eyebrow">07 / {{ t.case.outcome }}</p>
         <h2>{{ t.case.outcome }}</h2>
         <p class="case-lead">{{ project.outcome[locale] }}</p>
       </div>
       <aside>
         <span>{{ t.case.evidence }}</span>
-        <strong>—</strong>
-        <p>{{ t.case.evidenceBody }}</p>
+        <strong aria-hidden="true">—</strong>
+        <p>{{ project.evidenceSummary[locale] }}</p>
       </aside>
     </section>
 
+    <section class="case-section case-evolution-section" appReveal>
+      <div>
+        <p class="eyebrow">08 / {{ t.case.limitations }}</p>
+        <h2>{{ t.case.limitations }}</h2>
+        <ul class="case-editorial-list">
+          @for (limitation of project.limitations; track limitation.pt) {
+            <li>{{ limitation[locale] }}</li>
+          }
+        </ul>
+      </div>
+      <div class="case-roadmap">
+        <p class="eyebrow">09 / {{ t.case.evolution }}</p>
+        <h2>{{ t.case.nextSteps }}</h2>
+        <ol>
+          @for (step of project.nextSteps; track step.index) {
+            <li>
+              <span>{{ step.index }}</span>
+              <div>
+                <strong>{{ step.title[locale] }}</strong>
+                <p>{{ step.description[locale] }}</p>
+              </div>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+
     <section class="case-section learning-section" appReveal>
-      <p class="eyebrow">
-        {{ project.technologies.length > 0 ? "05" : "04" }} /
-        {{ t.case.learning }}
-      </p>
+      <p class="eyebrow">10 / {{ t.case.learning }}</p>
       <blockquote>{{ project.learning[locale] }}</blockquote>
+    </section>
+
+    <section class="case-section case-vision-section" appReveal>
+      <p class="eyebrow">11 / {{ t.case.vision }} / {{ t.case.evolution }}</p>
+      <p class="case-vision-statement">{{ project.vision[locale] }}</p>
     </section>
 
     <a

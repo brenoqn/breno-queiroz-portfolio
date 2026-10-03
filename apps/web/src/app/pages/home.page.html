@@ -1,239 +1,314 @@
-<div class="site-shell" id="top" [attr.lang]="t.htmlLang">
-  <header class="site-header">
-    <app-wordmark [locale]="locale" />
-
-    <nav
-      class="primary-nav"
-      [attr.aria-label]="locale === 'pt' ? 'Navegação principal' : 'Primary navigation'"
-    >
-      <a href="#projetos">{{ t.nav.work }}</a>
-      <a href="#evolucao">{{ t.nav.evolution }}</a>
-      <a href="#sobre">{{ t.nav.about }}</a>
-    </nav>
-
-    <a
-      class="language-switch"
-      [routerLink]="languagePath"
-      [attr.aria-label]="t.nav.languageLabel"
-    >
-      {{ t.nav.language }}
-      <span aria-hidden="true">↗</span>
-    </a>
-  </header>
+<div class="site-shell site-shell-v2" id="top" [attr.lang]="t.htmlLang">
+  <app-site-header [locale]="locale" />
 
   <main>
-    <section class="hero section-frame" aria-labelledby="hero-title">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">01 / {{ t.hero.eyebrow }}</p>
+    <section class="hero-v2 section-frame" aria-labelledby="hero-title">
+      <div class="hero-v2-copy reveal">
+        <div class="hero-identity" aria-label="{{ t.hero.role }}, {{ t.hero.experience }}">
+          <p class="hero-profession"><span>01 /</span>{{ t.hero.role }}</p>
+          <p class="hero-tenure">
+            <strong>{{ t.hero.experience }}</strong>
+            <span>{{ t.hero.location }}</span>
+          </p>
+        </div>
         <h1 id="hero-title">{{ t.hero.title }}</h1>
         <app-rotating-role [locale]="locale" />
-        <p class="hero-body">{{ t.hero.body }}</p>
+        <p class="hero-v2-body">{{ t.hero.body }}</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#projetos">
+          <a class="button button-primary" [routerLink]="homePath" fragment="projetos">
             {{ t.hero.primary }}
             <span aria-hidden="true">↓</span>
           </a>
-          <a class="button button-secondary" href="#contato">
+          <a class="button button-secondary" [href]="'mailto:' + email">
             {{ t.hero.secondary }}
+            <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
 
-      <div
-        class="capability-map reveal reveal-delay"
-        [attr.aria-label]="t.trustLabel"
-      >
-        <div class="capability-orbit" aria-hidden="true">
-          <span class="orbit orbit-outer"></span>
-          <span class="orbit orbit-inner"></span>
-          <span class="orbit-core">BQ</span>
-        </div>
-        <div class="capability-list">
-          @for (capability of t.capabilities; track capability; let index = $index) {
-            <div class="capability-row">
-              <span>0{{ index + 1 }}</span>
-              <strong>{{ capability }}</strong>
-              <i aria-hidden="true"></i>
-            </div>
-          }
-        </div>
-      </div>
-    </section>
+      <figure class="hero-portrait reveal reveal-delay">
+        <img
+          src="/breno-queiroz.webp"
+          alt="Breno Queiroz"
+          width="426"
+          height="426"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <figcaption><span aria-hidden="true"></span>BQ / 2026</figcaption>
+      </figure>
 
-    <section class="trust-strip" [attr.aria-label]="t.trustLabel">
-      <p>{{ t.trustLabel }}</p>
-      <ul>
-        @for (item of t.trust; track item) {
-          <li>
-            <span aria-hidden="true">+</span>
-            {{ item }}
-          </li>
-        }
-      </ul>
+      <a
+        class="hero-scroll-cue"
+        [routerLink]="homePath"
+        fragment="projetos"
+        [attr.aria-label]="t.hero.scrollLabel"
+      >
+        <svg viewBox="0 0 28 44" aria-hidden="true" focusable="false">
+          <rect x="3.5" y="1.5" width="21" height="31" rx="10.5"></rect>
+          <path class="hero-scroll-wheel" d="M14 8v7"></path>
+          <path d="m10 37 4 4 4-4"></path>
+        </svg>
+        <span>{{ t.hero.scroll }}</span>
+      </a>
     </section>
 
     <section
-      class="section-frame section-block"
-      aria-labelledby="why-title"
+      class="section-frame section-block work-section-v2"
+      id="projetos"
+      aria-labelledby="work-title"
     >
-      <div class="section-heading" appReveal>
-        <p class="eyebrow">02 / {{ t.why.eyebrow }}</p>
-        <h2 id="why-title">{{ t.why.title }}</h2>
-        <p>{{ t.why.body }}</p>
+      <div class="section-heading section-heading-v2" appReveal>
+        <p class="eyebrow">02 / {{ t.work.eyebrow }}</p>
+        <h2 id="work-title">{{ t.work.title }}</h2>
+        <p>{{ t.work.body }}</p>
       </div>
 
-      <div class="pillar-grid" appReveal>
-        @for (pillar of t.pillars; track pillar.index) {
-          <article class="pillar-card">
-            <span class="card-index">{{ pillar.index }}</span>
-            <h3>{{ pillar.title }}</h3>
-            <p>{{ pillar.body }}</p>
-            <span class="pillar-mark" aria-hidden="true">↗</span>
+      <div class="project-grid-v2">
+        @for (project of projects; track project.slug) {
+          <article class="project-card-v2" appReveal>
+            <a
+              class="project-visual-link"
+              [routerLink]="projectPath(project.slug)"
+              [attr.aria-label]="t.work.open + ': ' + project.title[locale]"
+            >
+              <app-project-visual [project]="project" [locale]="locale" />
+            </a>
+
+            <div class="project-card-body">
+              <div class="project-card-head">
+                <div>
+                  <p class="project-meta-v2">
+                    <span>{{ project.index }}</span>
+                    {{ project.category[locale] }}
+                  </p>
+                  <h3>{{ project.title[locale] }}</h3>
+                </div>
+                <span class="project-status-v2">
+                  <i aria-hidden="true"></i>
+                  {{ project.status[locale] }}
+                </span>
+              </div>
+
+              <p class="project-summary-v2">{{ project.summary[locale] }}</p>
+
+              <dl class="project-facts-v2">
+                <div>
+                  <dt>{{ t.work.problem }}</dt>
+                  <dd>{{ project.problem[locale] }}</dd>
+                </div>
+                <div>
+                  <dt>{{ t.work.contribution }}</dt>
+                  <dd>{{ project.contribution[locale] }}</dd>
+                </div>
+              </dl>
+
+              <div class="project-card-footer">
+                <ul [attr.aria-label]="t.work.stack">
+                  @for (technology of project.technologies.slice(0, 3); track technology) {
+                    <li>{{ technology }}</li>
+                  }
+                </ul>
+                <a class="project-link-v2" [routerLink]="projectPath(project.slug)">
+                  {{ t.work.open }} <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
           </article>
         }
       </div>
     </section>
 
     <section
-      class="section-frame section-block work-section"
-      id="projetos"
-      aria-labelledby="work-title"
+      class="section-frame section-block experience-section"
+      id="experiencia"
+      aria-labelledby="experience-title"
     >
-      <div class="section-heading section-heading-row" appReveal>
-        <div>
-          <p class="eyebrow">03 / {{ t.work.eyebrow }}</p>
-          <h2 id="work-title">{{ t.work.title }}</h2>
-        </div>
-        <p class="private-note">
-          <span aria-hidden="true"></span>
-          {{ t.work.note }}
-        </p>
+      <div class="section-heading section-heading-v2" appReveal>
+        <p class="eyebrow">03 / {{ t.experience.eyebrow }}</p>
+        <h2 id="experience-title">{{ t.experience.title }}</h2>
+        <p>{{ t.experience.body }}</p>
       </div>
 
-      <div class="project-grid" appReveal>
-        @for (project of projects; track project.slug) {
-          <a
-            class="project-card"
-            [class.project-card-featured]="project.featured"
-            [routerLink]="projectPath(project.slug)"
-            [attr.aria-label]="t.work.open + ': ' + project.title[locale]"
+      <div class="experience-list">
+        @for (item of experience; track item.index) {
+          <article
+            class="experience-entry"
+            [class.experience-entry-featured]="item.index === '01'"
+            appReveal
           >
-            <article>
-              <app-project-visual [index]="project.index" />
-              <div class="project-copy">
-                <div class="project-meta">
-                  <span>{{ project.index }}</span>
-                  <span>{{ project.category[locale] }}</span>
-                </div>
-                <h3>{{ project.title[locale] }}</h3>
-                <p>{{ project.summary[locale] }}</p>
-                <span class="project-link">
-                  {{ t.work.open }}
-                  <span aria-hidden="true">↗</span>
-                </span>
+            <header>
+              <span>{{ item.index }}</span>
+              <div>
+                <p>{{ item.company }}</p>
+                <h3>{{ item.role[locale] }}</h3>
               </div>
-            </article>
-          </a>
+              <time>{{ item.period }}</time>
+            </header>
+
+            <div class="experience-story">
+              <div class="experience-focus">
+                <span>{{ t.experience.focus }}</span>
+                <strong>{{ item.focus[locale] }}</strong>
+              </div>
+              <p>{{ item.context[locale] }}</p>
+              @if (item.journey; as journey) {
+                <div class="experience-journey">
+                  <span>{{ t.experience.journey }}</span>
+                  <ol>
+                    @for (step of journey; track step.pt; let last = $last) {
+                      <li>{{ step[locale] }} @if (!last) { <i aria-hidden="true">→</i> }</li>
+                    }
+                  </ol>
+                </div>
+              }
+            </div>
+
+            <dl>
+              <div><dt>{{ t.experience.responsibility }}</dt><dd>{{ item.responsibility[locale] }}</dd></div>
+              <div><dt>{{ t.experience.contribution }}</dt><dd>{{ item.contribution[locale] }}</dd></div>
+              <div><dt>{{ t.experience.outcome }}</dt><dd>{{ item.outcome[locale] }}</dd></div>
+            </dl>
+
+            <ul class="tag-list">
+              @for (technology of item.technologies; track technology) {
+                <li>{{ technology }}</li>
+              }
+            </ul>
+          </article>
         }
       </div>
     </section>
 
     <section
-      class="section-frame section-block evolution-section"
-      id="evolucao"
-      aria-labelledby="evolution-title"
+      class="section-frame section-block capabilities-section-v2"
+      id="competencias"
+      aria-labelledby="capabilities-title"
     >
-      <div class="section-heading" appReveal>
-        <p class="eyebrow">04 / {{ t.evolution.eyebrow }}</p>
-        <h2 id="evolution-title">{{ t.evolution.title }}</h2>
-        <p>{{ t.evolution.body }}</p>
+      <div class="section-heading section-heading-v2" appReveal>
+        <p class="eyebrow">04 / {{ t.capabilities.eyebrow }}</p>
+        <h2 id="capabilities-title">{{ t.capabilities.title }}</h2>
+        <p>{{ t.capabilities.body }}</p>
       </div>
 
-      <div class="evolution-layout" appReveal>
-        <ol class="timeline-list">
-          @for (item of timeline; track item.index) {
+      <div class="capability-grid-v2">
+        @for (group of capabilityGroups; track group.index) {
+          <article appReveal>
+            <span>{{ group.index }}</span>
+            <h3>{{ group.title[locale] }}</h3>
+            <p>{{ group.description[locale] }}</p>
+            <ul>
+              @for (item of group.items; track item.pt) {
+                <li>{{ item[locale] }}</li>
+              }
+            </ul>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="lab-section" id="lab" aria-labelledby="lab-title">
+      <div class="section-frame lab-layout">
+        <div class="lab-narrative">
+          <div class="section-heading section-heading-v2" appReveal>
+            <p class="eyebrow">05 / {{ t.lab.eyebrow }}</p>
+            <h2 id="lab-title">{{ t.lab.title }}</h2>
+            <p>{{ t.lab.body }}</p>
+          </div>
+
+          <ol class="lab-outcomes" appReveal>
+            @for (outcome of t.lab.outcomes; track outcome.title; let index = $index) {
+              <li>
+                <span>0{{ index + 1 }}</span>
+                <div>
+                  <strong>{{ outcome.title }}</strong>
+                  <p>{{ outcome.body }}</p>
+                </div>
+              </li>
+            }
+          </ol>
+        </div>
+
+        <div class="lab-system" appReveal>
+          <p class="lab-evidence-label">{{ t.lab.evidence }}</p>
+          <ol>
+            @for (step of t.lab.flow; track step; let index = $index; let last = $last) {
+              <li>
+                <span>0{{ index + 1 }}</span>
+                <strong>{{ step }}</strong>
+                @if (!last) { <i aria-hidden="true">→</i> }
+              </li>
+            }
+          </ol>
+          <ul>
+            @for (detail of t.lab.details; track detail) {
+              <li><span aria-hidden="true">+</span>{{ detail }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="section-frame section-block about-section-v2"
+      id="sobre"
+      aria-labelledby="about-title"
+    >
+      <p class="about-monogram" aria-hidden="true" appReveal>BQ</p>
+      <div class="about-content-v2" appReveal>
+        <p class="eyebrow">06 / {{ t.about.eyebrow }}</p>
+        <h2 id="about-title">{{ t.about.title }}</h2>
+        <p class="about-lead-v2">{{ t.about.body }}</p>
+        <p class="about-note-v2">{{ t.about.note }}</p>
+        <ol class="about-principles">
+          @for (principle of t.about.principles; track principle.title; let index = $index) {
             <li>
-              <span>{{ item.index }}</span>
+              <span>0{{ index + 1 }}</span>
               <div>
-                <h3>{{ item.title[locale] }}</h3>
-                <p>{{ item.description[locale] }}</p>
+                <strong>{{ principle.title }}</strong>
+                <p>{{ principle.body }}</p>
               </div>
             </li>
           }
         </ol>
-
-        <aside
-          class="status-panel"
-          [attr.aria-label]="t.evolution.panelLabel"
-        >
-          <div class="status-head">
-            <span>{{ t.evolution.panelLabel }}</span>
-            <i aria-hidden="true"></i>
-          </div>
-          <strong>{{ t.evolution.panelValue }}</strong>
-          <div class="status-ring" aria-hidden="true">
-            <span></span>
-          </div>
-          <dl>
-            @for (row of t.evolution.panelRows; track row[0]) {
-              <div>
-                <dt>{{ row[0] }}</dt>
-                <dd>{{ row[1] }}</dd>
-              </div>
-            }
-          </dl>
-        </aside>
       </div>
     </section>
 
-    <section
-      class="section-frame section-block about-section"
-      id="sobre"
-      aria-labelledby="about-title"
-    >
-      <div class="about-marker" aria-hidden="true" appReveal>
-        <span>BQ</span>
-      </div>
-      <div class="about-copy" appReveal>
-        <p class="eyebrow">05 / {{ t.about.eyebrow }}</p>
-        <h2 id="about-title">{{ t.about.title }}</h2>
-        <p class="about-lead">{{ t.about.body }}</p>
-        <p>{{ t.about.note }}</p>
-        <ul>
-          @for (principle of t.about.principles; track principle; let index = $index) {
-            <li>
-              <span>0{{ index + 1 }}</span>
-              {{ principle }}
-            </li>
+    <section class="contact-section-v2" id="contato" aria-labelledby="contact-title">
+      <div class="section-frame contact-layout-v2" appReveal>
+        <div>
+          <p class="eyebrow">07 / {{ t.contact.eyebrow }}</p>
+          <h2 id="contact-title">{{ t.contact.title }}</h2>
+          <p>{{ t.contact.body }}</p>
+        </div>
+        <div class="contact-links-v2">
+          <a class="contact-email-link" [href]="'mailto:' + email">
+            <span>
+              <small>{{ t.contact.email }}</small>
+              <strong>{{ email }}</strong>
+            </span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a [href]="linkedinUrl" target="_blank" rel="noopener noreferrer">{{ t.contact.linkedin }} <span aria-hidden="true">↗</span></a>
+          <a [href]="githubUrl" target="_blank" rel="noopener noreferrer">{{ t.contact.github }} <span aria-hidden="true">↗</span></a>
+          @if (resumeUrl; as resume) {
+            <a [href]="resume" target="_blank" rel="noopener noreferrer">{{ t.contact.resume }} <span aria-hidden="true">↓</span></a>
           }
-        </ul>
-      </div>
-    </section>
-
-    <section
-      class="contact-section"
-      appReveal
-      id="contato"
-      aria-labelledby="contact-title"
-    >
-      <p class="eyebrow">06 / {{ t.contact.eyebrow }}</p>
-      <h2 id="contact-title">{{ t.contact.title }}</h2>
-      <p>{{ t.contact.body }}</p>
-      <div class="contact-status">
-        <span aria-hidden="true"></span>
-        {{ t.contact.status }}
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <app-wordmark [locale]="locale" />
-    <p>{{ t.footer }}</p>
-    <a
-      href="#top"
-      [attr.aria-label]="locale === 'pt' ? 'Voltar ao topo' : 'Back to top'"
-    >
-      ↑
-    </a>
+  <footer class="site-footer-v2">
+    <div class="section-frame">
+      <p>{{ t.footer.note }}</p>
+      <nav [attr.aria-label]="locale === 'pt' ? 'Links do rodapé' : 'Footer links'">
+        <a [href]="'mailto:' + email">Email</a>
+        <a [href]="linkedinUrl" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a [href]="githubUrl" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a [routerLink]="locale === 'pt' ? '/en' : '/'">{{ t.nav.language }}</a>
+        <a [routerLink]="homePath" fragment="top">{{ t.footer.top }} ↑</a>
+      </nav>
+    </div>
   </footer>
 </div>

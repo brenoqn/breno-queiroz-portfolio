@@ -1,13 +1,16 @@
 import { DOCUMENT } from "@angular/common";
 import {
+  ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
   inject,
 } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Meta, Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {
   copy,
+  getNextProject,
   getProject,
   homeHref,
   projectHref,
@@ -15,17 +18,18 @@ import {
   type Locale,
   type Project,
 } from "../../../../../shared/content";
-import { WordmarkComponent } from "../components/wordmark.component";
+import { SiteHeaderComponent } from "../components/site-header.component";
 import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directive";
 
 @Component({
   selector: "app-case-study-page",
-  imports: [RevealOnScrollDirective, RouterLink, WordmarkComponent],
+  imports: [RevealOnScrollDirective, RouterLink, SiteHeaderComponent],
   templateUrl: "./case-study.page.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaseStudyPage {
   private readonly document = inject(DOCUMENT);
+  private readonly changeDetector = inject(ChangeDetectorRef);
   private readonly meta = inject(Meta);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -33,34 +37,32 @@ export class CaseStudyPage {
 
   readonly locale: Locale =
     this.route.snapshot.data["locale"] === "en" ? "en" : "pt";
-  readonly project: Project;
-  readonly nextProject: Project;
+  project: Project = projects[0];
+  nextProject: Project = getNextProject(this.project.slug);
   readonly t = copy[this.locale];
 
   constructor() {
-    const slug = this.route.snapshot.paramMap.get("slug") ?? "";
-    const resolvedProject = getProject(slug);
+    this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+      const resolvedProject = getProject(params.get("slug") ?? "");
 
-    if (!resolvedProject) {
-      this.project = projects[0];
-      this.nextProject = projects[1];
-      void this.router.navigateByUrl(homeHref(this.locale));
-      return;
-    }
+      if (!resolvedProject) {
+        void this.router.navigateByUrl(homeHref(this.locale), {
+          replaceUrl: true,
+        });
+        return;
+      }
 
-    this.project = resolvedProject;
-    const currentIndex = projects.findIndex(
-      (project) => project.slug === this.project.slug,
-    );
-    this.nextProject = projects[(currentIndex + 1) % projects.length];
-
-    this.document.documentElement.lang = this.t.htmlLang;
-    this.title.setTitle(
-      `${this.project.title[this.locale]} — Breno Queiroz`,
-    );
-    this.meta.updateTag({
-      name: "description",
-      content: this.project.summary[this.locale],
+      this.project = resolvedProject;
+      this.nextProject = getNextProject(resolvedProject.slug);
+      this.document.documentElement.lang = this.t.htmlLang;
+      this.title.setTitle(
+        `${this.project.title[this.locale]} — Breno Queiroz`,
+      );
+      this.meta.updateTag({
+        name: "description",
+        content: this.project.summary[this.locale],
+      });
+      this.changeDetector.markForCheck();
     });
   }
 

@@ -1,7 +1,7 @@
 # Portfólio Breno Queiroz
 
-Portal público bilíngue e editorial da BQTECH, apresentando Breno Queiroz como Web Designer e
-Desenvolvedor Full-Stack por meio dos cases reais Galinheiro, Garage e Memoriar.
+Portal público bilíngue e editorial da BQTECH, apresentando Breno Queiroz como Software Engineer
+com visão de produto, UX e execução ponta a ponta por meio dos cases reais Galinheiro, Garage e Memoriar.
 
 ## Arquitetura
 
@@ -10,7 +10,8 @@ Desenvolvedor Full-Stack por meio dos cases reais Galinheiro, Garage e Memoriar.
 - `app`: shell mínimo Next.js/vinext usado pela hospedagem no Sites e reservado para futuras APIs.
 - `scripts/stage-angular.mjs`: prepara o bundle Angular para a camada de hospedagem.
 
-O front-end não depende de banco de dados, autenticação, CMS, analytics ou formulário funcional nesta etapa.
+O front-end não depende de banco de dados, CMS, analytics ou formulário nesta etapa. A Home V2 reúne
+projetos, experiência selecionada, competências, BQTECH Lab e canais públicos de contato.
 Em produção, o `Dockerfile` gera somente o frontend Angular e o serve com Nginx.
 
 ## Rotas
