@@ -53,7 +53,8 @@ O nome dos bundles é gerado pelo build e nunca deve ser fixado em scripts ou te
 
 O GitHub Actions valida o repositório e, em `push` para `main`, publica as tags `latest` e
 `sha-<commit-curto>` no GHCR. O workflow usa runners hospedados pelo GitHub e `GITHUB_TOKEN` com
-permissão de escrita em packages somente no job de publicação.
+permissão de escrita em packages somente no job de publicação. Pull requests também constroem a
+imagem de produção, sem publicá-la, para que uma falha no `Dockerfile` apareça antes do merge.
 
 O GitHub não acessa o homelab. A atualização de produção é iniciada no próprio servidor por um
 timer, que consulta o registry, valida a nova imagem e mantém uma opção de rollback. Scripts de
