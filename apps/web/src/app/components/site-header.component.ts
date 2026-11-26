@@ -1,6 +1,9 @@
+import { DOCUMENT } from "@angular/common";
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
   signal,
@@ -20,12 +23,22 @@ import { WordmarkComponent } from "./wordmark.component";
   selector: "app-site-header",
   imports: [RouterLink, WordmarkComponent],
   template: `
+    <button class="skip-link" type="button" (click)="skipToContent()">
+      {{ skipLabel }}
+    </button>
+
     <header class="site-header-v2">
       <app-wordmark [locale]="locale" />
 
       <nav class="desktop-navigation" [attr.aria-label]="navigationLabel">
         @for (item of navigation; track item.fragment) {
-          <a [routerLink]="homePath" [fragment]="item.fragment">{{ item.label }}</a>
+          <a
+            [routerLink]="homePath"
+            [fragment]="item.fragment"
+            [class.is-active]="activeSection() === item.fragment"
+            [attr.aria-current]="activeSection() === item.fragment ? 'location' : null"
+            >{{ item.label }}</a
+          >
         }
       </nav>
 
@@ -99,9 +112,44 @@ export class SiteHeaderComponent {
   @Input() currentProjectSlug?: string;
 
   readonly menuOpen = signal(false);
+  readonly activeSection = signal<string | null>(null);
   readonly themeService = inject(ThemeService);
 
+  private readonly document = inject(DOCUMENT);
   private readonly localeService = inject(LocaleService);
+
+  constructor() {
+    const destroyRef = inject(DestroyRef);
+
+    afterNextRender(() => {
+      const view = this.document.defaultView;
+
+      if (this.currentProjectSlug || !view || !("IntersectionObserver" in view)) {
+        return;
+      }
+
+      const sections = this.navigation
+        .map((item) => this.document.getElementById(item.fragment))
+        .filter((section): section is HTMLElement => section !== null);
+
+      // A section is "active" while it crosses the middle band of the viewport.
+      const observer = new view.IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              this.activeSection.set(entry.target.id);
+            } else if (this.activeSection() === entry.target.id) {
+              this.activeSection.set(null);
+            }
+          }
+        },
+        { rootMargin: "-45% 0px -50% 0px" },
+      );
+
+      sections.forEach((section) => observer.observe(section));
+      destroyRef.onDestroy(() => observer.disconnect());
+    });
+  }
 
   get t() {
     return v2Copy[this.locale];
@@ -127,6 +175,10 @@ export class SiteHeaderComponent {
       : this.t.nav.darkThemeLabel;
   }
 
+  get skipLabel(): string {
+    return this.locale === "pt" ? "Pular para o conteúdo" : "Skip to content";
+  }
+
   get navigationLabel(): string {
     return this.locale === "pt" ? "Navegação principal" : "Primary navigation";
   }
@@ -140,6 +192,17 @@ export class SiteHeaderComponent {
       { index: "05", label: this.t.nav.about, fragment: "sobre" },
       { index: "06", label: this.t.nav.contact, fragment: "contato" },
     ];
+  }
+
+  skipToContent(): void {
+    const main = this.document.getElementById("conteudo");
+
+    if (!main) {
+      return;
+    }
+
+    main.focus({ preventScroll: true });
+    main.scrollIntoView({ block: "start" });
   }
 
   toggleMenu(): void {

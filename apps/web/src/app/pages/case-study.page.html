@@ -1,4 +1,5 @@
 <div class="case-shell" [attr.lang]="t.htmlLang">
+  <div class="reading-progress" aria-hidden="true"></div>
   <app-site-header [locale]="locale" [currentProjectSlug]="project.slug" />
   <div class="case-header">
     <a class="back-link" [routerLink]="backPath" fragment="projetos">
@@ -7,13 +8,15 @@
     </a>
   </div>
 
-  <main>
+  <main id="conteudo" tabindex="-1">
     <section class="case-hero">
       <div class="case-hero-copy" appReveal>
-        <p class="eyebrow">
+        <p class="eyebrow" appDecode>
           {{ project.index }} / {{ project.category[locale] }}
         </p>
-        <h1>{{ project.title[locale] }}</h1>
+        <h1 [style.view-transition-name]="'case-title-' + project.slug">
+          {{ project.title[locale] }}
+        </h1>
         <p>{{ project.summary[locale] }}</p>
         <div class="case-status-badge">
           <span aria-hidden="true"></span>
@@ -38,7 +41,12 @@
         }
       </div>
 
-      <div class="case-cover motion-reveal-delay" aria-hidden="true" appReveal>
+      <div
+        class="case-cover motion-reveal-delay"
+        aria-hidden="true"
+        appReveal
+        [style.view-transition-name]="'case-cover-' + project.slug"
+      >
         <div class="case-cover-window">
           <div class="case-cover-top">
             <span></span>
@@ -92,7 +100,7 @@
 
     @if (project.constraints.length > 0) {
       <section class="case-section case-section-split" appReveal>
-        <p class="eyebrow">01 / {{ t.case.constraints }}</p>
+        <p class="eyebrow" appDecode>01 / {{ t.case.constraints }}</p>
         <div>
           <h2>{{ t.case.constraints }}</h2>
           <ul class="case-editorial-list">
@@ -106,7 +114,7 @@
 
     <section class="case-section case-architecture" appReveal>
       <div class="case-section-head">
-        <p class="eyebrow">02 / {{ t.case.architecture }}</p>
+        <p class="eyebrow" appDecode>02 / {{ t.case.architecture }}</p>
         <h2>{{ t.case.architecture }}</h2>
       </div>
       <p class="case-lead">{{ project.architectureSummary[locale] }}</p>
@@ -126,7 +134,7 @@
     @if (project.decisions.length > 0) {
       <section class="case-section" appReveal>
         <div class="case-section-head">
-          <p class="eyebrow">03 / {{ t.case.decisions }}</p>
+          <p class="eyebrow" appDecode>03 / {{ t.case.decisions }}</p>
           <h2>{{ t.case.decisions }}</h2>
         </div>
         <div class="case-decision-list">
@@ -143,7 +151,7 @@
 
     <section class="case-section" appReveal>
       <div class="case-section-head">
-        <p class="eyebrow">04 / {{ t.case.implementation }}</p>
+        <p class="eyebrow" appDecode>04 / {{ t.case.implementation }}</p>
         <h2>{{ t.case.implementation }}</h2>
       </div>
       <div class="case-process-grid">
@@ -160,7 +168,7 @@
     @if (project.technologies.length > 0) {
       <section class="case-section case-stack-section" appReveal>
         <div class="case-section-head">
-          <p class="eyebrow">05 / {{ t.case.stack }}</p>
+          <p class="eyebrow" appDecode>05 / {{ t.case.stack }}</p>
           <h2>{{ t.case.stack }}</h2>
         </div>
         <ol class="case-stack-list" [attr.aria-label]="t.case.stack">
@@ -190,7 +198,7 @@
         </figure>
       }
       <div class="case-evidence-copy">
-        <p class="eyebrow">06 / {{ t.case.evidence }}</p>
+        <p class="eyebrow" appDecode>06 / {{ t.case.evidence }}</p>
         <h2>{{ t.case.evidence }}</h2>
         <ul class="case-editorial-list">
           @for (item of project.evidence; track item.pt) {
@@ -202,7 +210,7 @@
 
     <section class="case-section outcome-section" appReveal>
       <div>
-        <p class="eyebrow">07 / {{ t.case.outcome }}</p>
+        <p class="eyebrow" appDecode>07 / {{ t.case.outcome }}</p>
         <h2>{{ t.case.outcome }}</h2>
         <p class="case-lead">{{ project.outcome[locale] }}</p>
       </div>
@@ -215,7 +223,7 @@
 
     <section class="case-section case-evolution-section" appReveal>
       <div>
-        <p class="eyebrow">08 / {{ t.case.limitations }}</p>
+        <p class="eyebrow" appDecode>08 / {{ t.case.limitations }}</p>
         <h2>{{ t.case.limitations }}</h2>
         <ul class="case-editorial-list">
           @for (limitation of project.limitations; track limitation.pt) {
@@ -224,7 +232,7 @@
         </ul>
       </div>
       <div class="case-roadmap">
-        <p class="eyebrow">09 / {{ t.case.evolution }}</p>
+        <p class="eyebrow" appDecode>09 / {{ t.case.evolution }}</p>
         <h2>{{ t.case.nextSteps }}</h2>
         <ol>
           @for (step of project.nextSteps; track step.index) {
@@ -241,12 +249,12 @@
     </section>
 
     <section class="case-section learning-section" appReveal>
-      <p class="eyebrow">10 / {{ t.case.learning }}</p>
+      <p class="eyebrow" appDecode>10 / {{ t.case.learning }}</p>
       <blockquote>{{ project.learning[locale] }}</blockquote>
     </section>
 
     <section class="case-section case-vision-section" appReveal>
-      <p class="eyebrow">11 / {{ t.case.vision }} / {{ t.case.evolution }}</p>
+      <p class="eyebrow" appDecode>11 / {{ t.case.vision }} / {{ t.case.evolution }}</p>
       <p class="case-vision-statement">{{ project.vision[locale] }}</p>
     </section>
 

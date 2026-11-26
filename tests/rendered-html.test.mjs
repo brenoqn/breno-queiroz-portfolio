@@ -418,3 +418,29 @@ test("publishes factual experience and safe runtime assets only", async () => {
   assert.doesNotMatch(shippedText, /\+?55\s*\(?34\)?|99894/);
   assert.doesNotMatch(shippedText, /breno_cv\.pdf/i);
 });
+
+test("prerenders route documents with route-specific social metadata", async () => {
+  const read = (path) =>
+    readFile(new URL(`../public/angular/${path}`, import.meta.url), "utf8");
+  const [root, en, garage, memoriarEn] = await Promise.all([
+    read("index.html"),
+    read("en/index.html"),
+    read("projetos/garage/index.html"),
+    read("en/projects/memoriar/index.html"),
+  ]);
+
+  assert.match(root, /<link rel="canonical" href="https:\/\/bqtech\.com\.br\/"/);
+  assert.match(en, /<html lang="en"/);
+  assert.match(en, /<link rel="canonical" href="https:\/\/bqtech\.com\.br\/en">/);
+  assert.match(garage, /<title>Garage — Breno Queiroz<\/title>/);
+  assert.match(garage, /property="og:image" content="https:\/\/bqtech\.com\.br\/og\/garage-pt\.png"/);
+  assert.match(garage, /hreflang="en" href="https:\/\/bqtech\.com\.br\/en\/projects\/garage"/);
+  assert.match(memoriarEn, /<html lang="en"/);
+  assert.match(memoriarEn, /property="og:locale" content="en_US"/);
+  assert.match(memoriarEn, /og\/memoriar-en\.png/);
+
+  for (const html of [en, garage, memoriarEn]) {
+    assert.match(html, /<app-root/);
+    assert.match(html, /application\/ld\+json/);
+  }
+});
