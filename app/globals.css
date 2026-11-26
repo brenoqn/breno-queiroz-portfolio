@@ -2864,17 +2864,55 @@ main[tabindex="-1"] {
   position: relative;
 }
 
+.project-visual-v2 img,
+.project-technical-flow {
+  transform:
+    perspective(1000px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    scale(var(--tilt-scale, 1));
+  transition: opacity 260ms ease, transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .project-visual-v2 img {
   height: 100%;
   object-fit: cover;
   opacity: 0.78;
-  transition: opacity 260ms ease, transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
   width: 100%;
+}
+
+.project-visual-link:hover {
+  --tilt-scale: 1.04;
 }
 
 .project-visual-link:hover img {
   opacity: 1;
-  transform: scale(1.025);
+}
+
+.project-visual-link.is-tilting img,
+.project-visual-link.is-tilting .project-technical-flow {
+  transition: opacity 260ms ease, transform 140ms linear;
+}
+
+.project-visual-v2::before {
+  background: radial-gradient(
+    circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    color-mix(in srgb, var(--accent) 16%, transparent),
+    transparent 46%
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 260ms ease;
+  z-index: 1;
+}
+
+.project-visual-link:hover .project-visual-v2::before,
+.project-visual-link:focus-visible .project-visual-v2::before {
+  opacity: 1;
 }
 
 .project-visual-v2::after {
@@ -3903,5 +3941,101 @@ main[tabindex="-1"] {
 
   .site-footer-v2 nav {
     row-gap: 0;
+  }
+}
+
+/* Hero intro: title words rise from a mask; supporting copy follows. */
+.hero-intro > :not(h1) {
+  animation: reveal-up 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-intro > app-rotating-role {
+  animation-delay: 300ms;
+  display: block;
+}
+
+.hero-intro > .hero-v2-body {
+  animation-delay: 360ms;
+}
+
+.hero-intro > .hero-actions {
+  animation-delay: 420ms;
+}
+
+.hero-title-words .hero-word {
+  display: inline-block;
+  margin: -0.12em -0.04em -0.18em;
+  overflow: hidden;
+  padding: 0.12em 0.04em 0.18em;
+  vertical-align: top;
+}
+
+.hero-title-words .hero-word > span {
+  animation: word-rise 680ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(60ms + var(--word-index, 0) * 40ms);
+  display: inline-block;
+}
+
+@keyframes word-rise {
+  from {
+    transform: translateY(130%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Route transitions (View Transitions API, ignored where unsupported). */
+.site-header-v2 {
+  view-transition-name: site-header;
+}
+
+::view-transition-group(*) {
+  animation-duration: 460ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 280ms;
+}
+
+/* Case study reading progress (scroll-driven, no JavaScript). */
+.reading-progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .reading-progress {
+    animation: reading-progress linear both;
+    animation-timeline: scroll(root block);
+    background: var(--accent);
+    display: block;
+    height: 2px;
+    inset: 0 0 auto;
+    pointer-events: none;
+    position: fixed;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    z-index: 1001;
+  }
+}
+
+@keyframes reading-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-intro > :not(h1),
+  .hero-title-words .hero-word > span {
+    animation: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

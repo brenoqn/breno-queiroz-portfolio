@@ -3,7 +3,7 @@
 
   <main id="conteudo" tabindex="-1">
     <section class="hero-v2 section-frame" aria-labelledby="hero-title">
-      <div class="hero-v2-copy reveal">
+      <div class="hero-v2-copy hero-intro">
         <div class="hero-identity" aria-label="{{ t.hero.role }}, {{ t.hero.experience }}">
           <p class="hero-profession"><span>01 /</span>{{ t.hero.role }}</p>
           <p class="hero-tenure">
@@ -11,7 +11,11 @@
             <span>{{ t.hero.location }}</span>
           </p>
         </div>
-        <h1 id="hero-title">{{ t.hero.title }}</h1>
+        <h1 id="hero-title" class="hero-title-words">
+          @for (word of heroWords; track $index; let last = $last) {
+            <span class="hero-word"><span [style.--word-index]="$index">{{ word }}</span></span>{{ last ? "" : " " }}
+          }
+        </h1>
         <app-rotating-role [locale]="locale" />
         <p class="hero-v2-body">{{ t.hero.body }}</p>
         <div class="hero-actions">
@@ -59,7 +63,7 @@
       aria-labelledby="work-title"
     >
       <div class="section-heading section-heading-v2" appReveal>
-        <p class="eyebrow">02 / {{ t.work.eyebrow }}</p>
+        <p class="eyebrow" appDecode>02 / {{ t.work.eyebrow }}</p>
         <h2 id="work-title">{{ t.work.title }}</h2>
         <p>{{ t.work.body }}</p>
       </div>
@@ -69,6 +73,8 @@
           <article class="project-card-v2" appReveal>
             <a
               class="project-visual-link"
+              appTilt
+              [style.view-transition-name]="'case-cover-' + project.slug"
               [routerLink]="projectPath(project.slug)"
               [attr.aria-label]="t.work.open + ': ' + project.title[locale]"
             >
@@ -82,7 +88,9 @@
                     <span>{{ project.index }}</span>
                     {{ project.category[locale] }}
                   </p>
-                  <h3>{{ project.title[locale] }}</h3>
+                  <h3 [style.view-transition-name]="'case-title-' + project.slug">
+                    {{ project.title[locale] }}
+                  </h3>
                 </div>
                 <span class="project-status-v2">
                   <i aria-hidden="true"></i>
@@ -125,7 +133,7 @@
       aria-labelledby="experience-title"
     >
       <div class="section-heading section-heading-v2" appReveal>
-        <p class="eyebrow">03 / {{ t.experience.eyebrow }}</p>
+        <p class="eyebrow" appDecode>03 / {{ t.experience.eyebrow }}</p>
         <h2 id="experience-title">{{ t.experience.title }}</h2>
         <p>{{ t.experience.body }}</p>
       </div>
@@ -186,7 +194,7 @@
       aria-labelledby="capabilities-title"
     >
       <div class="section-heading section-heading-v2" appReveal>
-        <p class="eyebrow">04 / {{ t.capabilities.eyebrow }}</p>
+        <p class="eyebrow" appDecode>04 / {{ t.capabilities.eyebrow }}</p>
         <h2 id="capabilities-title">{{ t.capabilities.title }}</h2>
         <p>{{ t.capabilities.body }}</p>
       </div>
@@ -211,7 +219,7 @@
       <div class="section-frame lab-layout">
         <div class="lab-narrative">
           <div class="section-heading section-heading-v2" appReveal>
-            <p class="eyebrow">05 / {{ t.lab.eyebrow }}</p>
+            <p class="eyebrow" appDecode>05 / {{ t.lab.eyebrow }}</p>
             <h2 id="lab-title">{{ t.lab.title }}</h2>
             <p>{{ t.lab.body }}</p>
           </div>
@@ -256,7 +264,7 @@
     >
       <p class="about-monogram" aria-hidden="true" appReveal>BQ</p>
       <div class="about-content-v2" appReveal>
-        <p class="eyebrow">06 / {{ t.about.eyebrow }}</p>
+        <p class="eyebrow" appDecode>06 / {{ t.about.eyebrow }}</p>
         <h2 id="about-title">{{ t.about.title }}</h2>
         <p class="about-lead-v2">{{ t.about.body }}</p>
         <p class="about-note-v2">{{ t.about.note }}</p>
@@ -277,7 +285,7 @@
     <section class="contact-section-v2" id="contato" aria-labelledby="contact-title">
       <div class="section-frame contact-layout-v2" appReveal>
         <div>
-          <p class="eyebrow">07 / {{ t.contact.eyebrow }}</p>
+          <p class="eyebrow" appDecode>07 / {{ t.contact.eyebrow }}</p>
           <h2 id="contact-title">{{ t.contact.title }}</h2>
           <p>{{ t.contact.body }}</p>
         </div>

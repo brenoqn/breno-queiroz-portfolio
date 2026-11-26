@@ -18,12 +18,18 @@ import {
   type Project,
 } from "../../../../../shared/content";
 import { SiteHeaderComponent } from "../components/site-header.component";
+import { DecodeTextDirective } from "../directives/decode-text.directive";
 import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directive";
 import { SeoService } from "../services/seo.service";
 
 @Component({
   selector: "app-case-study-page",
-  imports: [RevealOnScrollDirective, RouterLink, SiteHeaderComponent],
+  imports: [
+    DecodeTextDirective,
+    RevealOnScrollDirective,
+    RouterLink,
+    SiteHeaderComponent,
+  ],
   templateUrl: "./case-study.page.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

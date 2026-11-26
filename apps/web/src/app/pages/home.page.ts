@@ -17,17 +17,21 @@ import {
 import { ProjectVisualComponent } from "../components/project-visual.component";
 import { RotatingRoleComponent } from "../components/rotating-role.component";
 import { SiteHeaderComponent } from "../components/site-header.component";
+import { DecodeTextDirective } from "../directives/decode-text.directive";
 import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directive";
+import { TiltDirective } from "../directives/tilt.directive";
 import { SeoService } from "../services/seo.service";
 
 @Component({
   selector: "app-home-page",
   imports: [
+    DecodeTextDirective,
     ProjectVisualComponent,
     RevealOnScrollDirective,
     RotatingRoleComponent,
     RouterLink,
     SiteHeaderComponent,
+    TiltDirective,
   ],
   templateUrl: "./home.page.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,6 +47,7 @@ export class HomePage {
   readonly experience = experience.filter((item) => item.published);
   readonly capabilityGroups = capabilityGroups;
   readonly t = v2Copy[this.locale];
+  readonly heroWords = this.t.hero.title.split(" ");
   readonly email = "brenoqn01@gmail.com";
   readonly linkedinUrl = "https://www.linkedin.com/in/brenoqn/";
   readonly githubUrl = "https://github.com/brenoqn";
