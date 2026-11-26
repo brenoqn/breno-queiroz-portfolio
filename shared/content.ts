@@ -1351,3 +1351,57 @@ export function getNextProject(slug: string): Project {
 
   return projects[nextIndex];
 }
+
+// --- SEO metadata shared by the Angular app and the build-time prerender ---
+
+export const SITE_ORIGIN = "https://bqtech.com.br";
+
+export interface PageSeo {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Path of this page in its locale, e.g. "/projetos/garage". */
+  path: string;
+  /** Path of the same page in the other locale. */
+  alternatePath: string;
+  /** Absolute path of the 1200x630 social image. */
+  image: string;
+  imageAlt: string;
+}
+
+const homeDescription: LocalizedText = {
+  pt: "Software Engineer em Uberlândia. Produtos digitais, UX e engenharia da ideia à produção.",
+  en: "Software Engineer based in Uberlândia. Digital products, UX, and engineering from idea to production.",
+};
+
+function otherLocale(locale: Locale): Locale {
+  return locale === "pt" ? "en" : "pt";
+}
+
+export function homePageSeo(locale: Locale): PageSeo {
+  const title = "Breno Queiroz — Software Engineer";
+
+  return {
+    locale,
+    title,
+    description: homeDescription[locale],
+    path: homeHref(locale),
+    alternatePath: homeHref(otherLocale(locale)),
+    image: "/og.png",
+    imageAlt: title,
+  };
+}
+
+export function casePageSeo(project: Project, locale: Locale): PageSeo {
+  const label = locale === "pt" ? "Estudo de caso" : "Case study";
+
+  return {
+    locale,
+    title: `${project.title[locale]} — Breno Queiroz`,
+    description: project.summary[locale],
+    path: projectHref(locale, project.slug),
+    alternatePath: projectHref(otherLocale(locale), project.slug),
+    image: `/og/${project.slug}-${locale}.png`,
+    imageAlt: `${project.title[locale]} — ${label} · Breno Queiroz`,
+  };
+}

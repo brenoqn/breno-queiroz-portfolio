@@ -1,19 +1,11 @@
 import { DOCUMENT } from "@angular/common";
 import { inject, Injectable } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
-import type { Locale } from "../../../../../shared/content";
-
-export const SITE_ORIGIN = "https://bqtech.com.br";
-
-export interface SeoPage {
-  locale: Locale;
-  title: string;
-  description: string;
-  /** Path of this page in the current locale, e.g. "/projetos/garage". */
-  path: string;
-  /** Path of the same page in the other locale. */
-  alternatePath: string;
-}
+import {
+  SITE_ORIGIN,
+  type Locale,
+  type PageSeo,
+} from "../../../../../shared/content";
 
 const OG_LOCALE: Record<Locale, string> = { pt: "pt_BR", en: "en_US" };
 const HREFLANG: Record<Locale, string> = { pt: "pt-BR", en: "en" };
@@ -29,7 +21,7 @@ export class SeoService {
   private readonly meta = inject(Meta);
   private readonly title = inject(Title);
 
-  update(page: SeoPage): void {
+  update(page: PageSeo): void {
     const url = this.absolute(page.path);
     const alternateLocale: Locale = page.locale === "pt" ? "en" : "pt";
     const ptPath = page.locale === "pt" ? page.path : page.alternatePath;
@@ -50,6 +42,15 @@ export class SeoService {
     this.meta.updateTag({
       property: "og:locale:alternate",
       content: OG_LOCALE[alternateLocale],
+    });
+    this.meta.updateTag({
+      property: "og:image",
+      content: this.absolute(page.image),
+    });
+    this.meta.updateTag({ property: "og:image:alt", content: page.imageAlt });
+    this.meta.updateTag({
+      name: "twitter:image",
+      content: this.absolute(page.image),
     });
     this.meta.updateTag({ name: "twitter:title", content: page.title });
     this.meta.updateTag({

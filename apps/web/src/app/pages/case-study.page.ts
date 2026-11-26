@@ -8,6 +8,7 @@ import {
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {
+  casePageSeo,
   copy,
   getNextProject,
   getProject,
@@ -60,16 +61,7 @@ export class CaseStudyPage {
       this.project = resolvedProject;
       this.nextProject = getNextProject(resolvedProject.slug);
       this.document.documentElement.lang = this.t.htmlLang;
-      this.seo.update({
-        locale: this.locale,
-        title: `${this.project.title[this.locale]} — Breno Queiroz`,
-        description: this.project.summary[this.locale],
-        path: projectHref(this.locale, resolvedProject.slug),
-        alternatePath: projectHref(
-          this.locale === "pt" ? "en" : "pt",
-          resolvedProject.slug,
-        ),
-      });
+      this.seo.update(casePageSeo(resolvedProject, this.locale));
       this.changeDetector.markForCheck();
     });
   }

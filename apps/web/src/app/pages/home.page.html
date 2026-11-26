@@ -289,13 +289,27 @@
           <p>{{ t.contact.body }}</p>
         </div>
         <div class="contact-links-v2">
-          <a class="contact-email-link" [href]="'mailto:' + email">
-            <span>
-              <small>{{ t.contact.email }}</small>
-              <strong>{{ email }}</strong>
-            </span>
-            <span aria-hidden="true">↗</span>
-          </a>
+          <div class="contact-email-row">
+            <a class="contact-email-link" [href]="'mailto:' + email">
+              <span>
+                <small>{{ t.contact.email }}</small>
+                <strong>{{ email }}</strong>
+              </span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            @if (canCopy()) {
+              <button
+                class="contact-copy"
+                type="button"
+                [class.is-copied]="copied()"
+                [attr.aria-label]="copyLabel"
+                (click)="copyEmail()"
+              >
+                {{ copied() ? copiedText : copyText }}
+              </button>
+            }
+          </div>
+          <span class="sr-only" aria-live="polite">{{ copied() ? copiedText : "" }}</span>
           <a [href]="linkedinUrl" target="_blank" rel="noopener noreferrer">{{ t.contact.linkedin }} <span aria-hidden="true">↗</span></a>
           <a [href]="githubUrl" target="_blank" rel="noopener noreferrer">{{ t.contact.github }} <span aria-hidden="true">↗</span></a>
           @if (resumeUrl; as resume) {

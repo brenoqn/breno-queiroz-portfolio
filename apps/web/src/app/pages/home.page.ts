@@ -1,14 +1,18 @@
 import { DOCUMENT } from "@angular/common";
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
+  signal,
 } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import {
   capabilityGroups,
   experience,
   homeHref,
+  homePageSeo,
   projectHref,
   projects,
   v2Copy,
@@ -52,19 +56,49 @@ export class HomePage {
   readonly linkedinUrl = "https://www.linkedin.com/in/brenoqn/";
   readonly githubUrl = "https://github.com/brenoqn";
   readonly resumeUrl: string | null = null;
+  readonly canCopy = signal(false);
+  readonly copied = signal(false);
+  readonly copyText = this.locale === "pt" ? "Copiar" : "Copy";
+  readonly copiedText = this.locale === "pt" ? "Copiado ✓" : "Copied ✓";
+  readonly copyLabel =
+    this.locale === "pt" ? "Copiar endereço de e-mail" : "Copy email address";
+  private copyTimer: number | null = null;
 
   constructor() {
-    this.document.documentElement.lang = this.t.htmlLang;
-    this.seo.update({
-      locale: this.locale,
-      title: "Breno Queiroz — Software Engineer",
-      description:
-        this.locale === "pt"
-          ? "Software Engineer em Uberlândia. Produtos digitais, UX e engenharia da ideia à produção."
-          : "Software Engineer based in Uberlândia. Digital products, UX, and engineering from idea to production.",
-      path: homeHref(this.locale),
-      alternatePath: homeHref(this.locale === "pt" ? "en" : "pt"),
+    afterNextRender(() => {
+      this.canCopy.set(
+        typeof this.document.defaultView?.navigator.clipboard?.writeText ===
+          "function",
+      );
     });
+    inject(DestroyRef).onDestroy(() => {
+      if (this.copyTimer !== null) {
+        this.document.defaultView?.clearTimeout(this.copyTimer);
+      }
+    });
+
+    this.document.documentElement.lang = this.t.htmlLang;
+    this.seo.update(homePageSeo(this.locale));
+  }
+
+  async copyEmail(): Promise<void> {
+    const view = this.document.defaultView;
+
+    try {
+      await view?.navigator.clipboard.writeText(this.email);
+    } catch {
+      return;
+    }
+
+    this.copied.set(true);
+
+    if (view) {
+      if (this.copyTimer !== null) {
+        view.clearTimeout(this.copyTimer);
+      }
+
+      this.copyTimer = view.setTimeout(() => this.copied.set(false), 2200);
+    }
   }
 
   get homePath(): string {

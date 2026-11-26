@@ -3661,6 +3661,44 @@ main[tabindex="-1"] {
   color: var(--accent);
 }
 
+.contact-email-row {
+  border-bottom: 1px solid var(--line-bright);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.contact-links-v2 .contact-email-row a {
+  border-bottom: 0;
+  min-width: 0;
+}
+
+.contact-email-link strong {
+  overflow-wrap: anywhere;
+}
+
+.contact-copy {
+  align-self: center;
+  background: transparent;
+  border: 1px solid var(--line-bright);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  margin-left: 1rem;
+  min-height: 44px;
+  min-width: 96px;
+  padding: 0 0.9rem;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.contact-copy:hover,
+.contact-copy.is-copied {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .contact-email-link > span:first-child {
   display: grid;
   gap: 0.35rem;
@@ -3953,9 +3991,30 @@ main[tabindex="-1"] {
     width: 100%;
   }
 
+  /* Compact portrait above the fold, read as a profile row. */
+  .hero-portrait {
+    align-items: center;
+    display: flex;
+    gap: 0.9rem;
+    order: -1;
+    padding: 0.4rem;
+    width: fit-content;
+  }
+
+  .hero-portrait::before {
+    height: 18px;
+    width: 18px;
+  }
+
   .hero-portrait img {
-    aspect-ratio: 16 / 7;
-    max-height: 175px;
+    aspect-ratio: 1;
+    height: 64px;
+    object-position: center 22%;
+    width: 64px;
+  }
+
+  .hero-portrait figcaption {
+    padding: 0 0.75rem 0 0;
   }
 
   .section-block {

@@ -9,7 +9,8 @@ RUN npm ci
 
 COPY . .
 
-RUN npx ng build web --configuration production --deploy-url /
+RUN npx ng build web --configuration production --deploy-url / \
+  && node scripts/prerender-routes.mjs angular-dist/browser
 
 FROM nginx:alpine
 
