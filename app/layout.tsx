@@ -80,7 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" id="top">
+    <html lang="pt-BR">
       <body
         className={`${archivo.variable} ${spaceGrotesk.variable} ${spaceMono.variable}`}
       >

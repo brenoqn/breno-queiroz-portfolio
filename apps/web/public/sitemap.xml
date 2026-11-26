@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://bqtech.com.br/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/en</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/projetos/galinheiro</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/galinheiro"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/galinheiro"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/galinheiro"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/en/projects/galinheiro</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/galinheiro"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/galinheiro"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/galinheiro"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/projetos/garage</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/garage"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/garage"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/garage"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/en/projects/garage</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/garage"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/garage"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/garage"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/projetos/memoriar</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/memoriar"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/memoriar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/memoriar"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/en/projects/memoriar</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/memoriar"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/memoriar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/memoriar"/>
+  </url>
+</urlset>

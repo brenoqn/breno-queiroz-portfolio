@@ -4,7 +4,6 @@ import {
   Component,
   inject,
 } from "@angular/core";
-import { Meta, Title } from "@angular/platform-browser";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import {
   capabilityGroups,
@@ -19,6 +18,7 @@ import { ProjectVisualComponent } from "../components/project-visual.component";
 import { RotatingRoleComponent } from "../components/rotating-role.component";
 import { SiteHeaderComponent } from "../components/site-header.component";
 import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directive";
+import { SeoService } from "../services/seo.service";
 
 @Component({
   selector: "app-home-page",
@@ -34,9 +34,8 @@ import { RevealOnScrollDirective } from "../directives/reveal-on-scroll.directiv
 })
 export class HomePage {
   private readonly document = inject(DOCUMENT);
-  private readonly meta = inject(Meta);
   private readonly route = inject(ActivatedRoute);
-  private readonly title = inject(Title);
+  private readonly seo = inject(SeoService);
 
   readonly locale: Locale =
     this.route.snapshot.data["locale"] === "en" ? "en" : "pt";
@@ -51,17 +50,15 @@ export class HomePage {
 
   constructor() {
     this.document.documentElement.lang = this.t.htmlLang;
-    this.title.setTitle(
-      this.locale === "pt"
-        ? "Breno Queiroz — Software Engineer"
-        : "Breno Queiroz — Software Engineer",
-    );
-    this.meta.updateTag({
-      name: "description",
-      content:
+    this.seo.update({
+      locale: this.locale,
+      title: "Breno Queiroz — Software Engineer",
+      description:
         this.locale === "pt"
           ? "Software Engineer em Uberlândia. Produtos digitais, UX e engenharia da ideia à produção."
           : "Software Engineer based in Uberlândia. Digital products, UX, and engineering from idea to production.",
+      path: homeHref(this.locale),
+      alternatePath: homeHref(this.locale === "pt" ? "en" : "pt"),
     });
   }
 

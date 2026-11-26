@@ -1,3 +1,4 @@
+import { DOCUMENT } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,6 +21,10 @@ import { WordmarkComponent } from "./wordmark.component";
   selector: "app-site-header",
   imports: [RouterLink, WordmarkComponent],
   template: `
+    <button class="skip-link" type="button" (click)="skipToContent()">
+      {{ skipLabel }}
+    </button>
+
     <header class="site-header-v2">
       <app-wordmark [locale]="locale" />
 
@@ -101,6 +106,7 @@ export class SiteHeaderComponent {
   readonly menuOpen = signal(false);
   readonly themeService = inject(ThemeService);
 
+  private readonly document = inject(DOCUMENT);
   private readonly localeService = inject(LocaleService);
 
   get t() {
@@ -127,6 +133,10 @@ export class SiteHeaderComponent {
       : this.t.nav.darkThemeLabel;
   }
 
+  get skipLabel(): string {
+    return this.locale === "pt" ? "Pular para o conteúdo" : "Skip to content";
+  }
+
   get navigationLabel(): string {
     return this.locale === "pt" ? "Navegação principal" : "Primary navigation";
   }
@@ -140,6 +150,17 @@ export class SiteHeaderComponent {
       { index: "05", label: this.t.nav.about, fragment: "sobre" },
       { index: "06", label: this.t.nav.contact, fragment: "contato" },
     ];
+  }
+
+  skipToContent(): void {
+    const main = this.document.getElementById("conteudo");
+
+    if (!main) {
+      return;
+    }
+
+    main.focus({ preventScroll: true });
+    main.scrollIntoView({ block: "start" });
   }
 
   toggleMenu(): void {

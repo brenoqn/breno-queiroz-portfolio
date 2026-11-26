@@ -244,6 +244,39 @@ a {
   width: 1px;
 }
 
+.skip-link {
+  background: var(--accent);
+  border: 0;
+  cursor: pointer;
+  color: var(--accent-contrast);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  left: var(--page-padding);
+  letter-spacing: 0.08em;
+  padding: var(--space-12) var(--space-16);
+  position: fixed;
+  text-decoration: none;
+  text-transform: uppercase;
+  top: var(--space-12);
+  transform: translateY(calc(-100% - var(--space-24)));
+  z-index: 1000;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  outline-color: var(--foreground);
+  outline-offset: 3px;
+  transform: none;
+}
+
+main[tabindex="-1"]:focus {
+  outline: none;
+}
+
+main[tabindex="-1"] {
+  scroll-margin-top: var(--size-header-desktop);
+}
+
 .site-shell,
 .case-shell {
   min-height: 100vh;
