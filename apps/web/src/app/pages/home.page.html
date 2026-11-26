@@ -240,11 +240,10 @@
         <div class="lab-system" appReveal>
           <p class="lab-evidence-label">{{ t.lab.evidence }}</p>
           <ol>
-            @for (step of t.lab.flow; track step; let index = $index; let last = $last) {
+            @for (step of t.lab.flow; track step; let index = $index) {
               <li>
                 <span>0{{ index + 1 }}</span>
                 <strong>{{ step }}</strong>
-                @if (!last) { <i aria-hidden="true">→</i> }
               </li>
             }
           </ol>

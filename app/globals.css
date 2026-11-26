@@ -2572,6 +2572,31 @@ main[tabindex="-1"] {
   color: var(--accent);
 }
 
+.desktop-navigation a {
+  position: relative;
+}
+
+.desktop-navigation a::after {
+  background: var(--accent);
+  bottom: -0.55rem;
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+}
+
+.desktop-navigation a.is-active {
+  color: var(--accent);
+}
+
+.desktop-navigation a.is-active::after {
+  transform: scaleX(1);
+}
+
 .header-controls {
   align-items: center;
   display: flex;
@@ -3290,8 +3315,16 @@ main[tabindex="-1"] {
 }
 
 .lab-section {
-  background: var(--accent);
-  color: var(--accent-contrast);
+  background:
+    radial-gradient(
+      ellipse 60% 70% at 85% 30%,
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 70%
+    ),
+    var(--surface);
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  color: var(--foreground);
 }
 
 .lab-layout {
@@ -3315,9 +3348,8 @@ main[tabindex="-1"] {
   margin: 1.25rem 0 2rem;
 }
 
-.lab-layout .section-heading-v2 > p:last-child,
-.lab-layout .eyebrow {
-  color: var(--accent-ink-muted);
+.lab-layout .section-heading-v2 > p:last-child {
+  color: var(--muted);
 }
 
 .lab-system ol,
@@ -3329,11 +3361,13 @@ main[tabindex="-1"] {
 
 .lab-system {
   align-self: end;
+  background: var(--panel-background);
+  border: 1px solid var(--line-bright);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .lab-evidence-label {
-  color: var(--accent-ink-soft);
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
 }
 
 .lab-outcomes {
@@ -3344,7 +3378,7 @@ main[tabindex="-1"] {
 }
 
 .lab-outcomes li {
-  border-top: 1px solid var(--accent-line);
+  border-top: 1px solid var(--line);
   display: grid;
   gap: 1rem;
   grid-template-columns: 34px 1fr;
@@ -3352,10 +3386,11 @@ main[tabindex="-1"] {
 }
 
 .lab-outcomes li:last-child {
-  border-bottom: 1px solid var(--accent-line);
+  border-bottom: 1px solid var(--line);
 }
 
 .lab-outcomes span {
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.58rem;
 }
@@ -3366,45 +3401,150 @@ main[tabindex="-1"] {
 }
 
 .lab-outcomes p {
-  color: var(--accent-ink-muted);
+  color: var(--muted);
   font-size: 0.85rem;
   margin: 0.35rem 0 0;
 }
 
+/* Delivery pipeline drawn as a rail of nodes; a pulse travels it once in view. */
 .lab-system ol {
-  border-top: 1px solid var(--accent-line);
+  --node-size: 26px;
+  --row-height: 58px;
+  position: relative;
+}
+
+.lab-system ol::before,
+.lab-system ol::after {
+  content: "";
+  left: calc(var(--node-size) / 2);
+  position: absolute;
+  width: 1px;
+}
+
+.lab-system ol::before {
+  background: var(--line-bright);
+  bottom: calc(var(--row-height) / 2);
+  top: calc(var(--row-height) / 2);
+}
+
+.lab-system ol::after {
+  background: linear-gradient(180deg, transparent, var(--accent), transparent);
+  height: 72px;
+  opacity: 0;
+  top: calc(var(--row-height) / 2);
+}
+
+.lab-system.is-visible ol::after {
+  animation: pipeline-pulse 3.2s cubic-bezier(0.45, 0, 0.55, 1) 600ms infinite;
 }
 
 .lab-system ol li {
   align-items: center;
-  border-bottom: 1px solid var(--accent-line);
   display: grid;
-  gap: 1rem;
-  grid-template-columns: 38px 1fr auto;
-  min-height: 58px;
+  gap: 1.25rem;
+  grid-template-columns: var(--node-size) 1fr;
+  min-height: var(--row-height);
+  position: relative;
 }
 
-.lab-system span,
-.lab-system i {
+.lab-system ol span {
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line-bright);
+  color: var(--muted);
+  display: flex;
+  height: var(--node-size);
+  justify-content: center;
+  position: relative;
+  transition: border-color 180ms ease, color 180ms ease;
+  width: var(--node-size);
+  z-index: 1;
+}
+
+.lab-system ol strong {
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  transition: color 180ms ease;
+}
+
+.lab-system ol li:hover span {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.lab-system ol li:hover strong {
+  color: var(--accent);
+}
+
+.lab-system ol li:last-child span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.lab-system ol li:last-child span::after {
+  animation: pipeline-beacon 2.4s ease-out infinite;
+  border: 1px solid var(--accent);
+  content: "";
+  inset: -1px;
+  position: absolute;
+}
+
+.lab-system ol li:last-child strong {
+  color: var(--accent);
+}
+
+.lab-system span {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-style: normal;
 }
 
 .lab-system > ul {
+  border-top: 1px solid var(--line);
   display: grid;
   gap: 0.75rem;
   grid-template-columns: 1fr 1fr;
   margin-top: 2rem;
+  padding-top: 1.5rem;
 }
 
 .lab-system > ul li {
+  color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.68rem;
 }
 
 .lab-system > ul span {
+  color: var(--accent);
   margin-right: 0.5rem;
+}
+
+@keyframes pipeline-pulse {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(var(--row-height) * 5 - 72px));
+  }
+}
+
+@keyframes pipeline-beacon {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
 }
 
 .about-section-v2 {
