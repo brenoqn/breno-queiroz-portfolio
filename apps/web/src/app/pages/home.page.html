@@ -138,28 +138,26 @@
         <p>{{ t.experience.body }}</p>
       </div>
 
-      <div class="experience-list">
+      <ol class="experience-timeline">
         @for (item of experience; track item.index) {
-          <article
-            class="experience-entry"
-            [class.experience-entry-featured]="item.index === '01'"
-            appReveal
-          >
-            <header>
+          <li class="experience-item" [class.is-open]="isExperienceOpen(item.index)" appReveal>
+            <div class="experience-when">
+              <time>{{ item.period }}</time>
               <span>{{ item.index }}</span>
-              <div>
+            </div>
+            <div class="experience-rail" aria-hidden="true"><span></span></div>
+
+            <article class="experience-body">
+              <header>
                 <p>{{ item.company }}</p>
                 <h3>{{ item.role[locale] }}</h3>
-              </div>
-              <time>{{ item.period }}</time>
-            </header>
+              </header>
 
-            <div class="experience-story">
-              <div class="experience-focus">
-                <span>{{ t.experience.focus }}</span>
+              <div class="experience-lede">
                 <strong>{{ item.focus[locale] }}</strong>
+                <p>{{ item.context[locale] }}</p>
               </div>
-              <p>{{ item.context[locale] }}</p>
+
               @if (item.journey; as journey) {
                 <div class="experience-journey">
                   <span>{{ t.experience.journey }}</span>
@@ -170,22 +168,45 @@
                   </ol>
                 </div>
               }
-            </div>
 
-            <dl>
-              <div><dt>{{ t.experience.responsibility }}</dt><dd>{{ item.responsibility[locale] }}</dd></div>
-              <div><dt>{{ t.experience.contribution }}</dt><dd>{{ item.contribution[locale] }}</dd></div>
-              <div><dt>{{ t.experience.outcome }}</dt><dd>{{ item.outcome[locale] }}</dd></div>
-            </dl>
+              <div class="experience-result">
+                <span>{{ t.experience.outcome }}</span>
+                <p>{{ item.outcome[locale] }}</p>
+              </div>
 
-            <ul class="tag-list">
-              @for (technology of item.technologies; track technology) {
-                <li>{{ technology }}</li>
-              }
-            </ul>
-          </article>
+              <dl
+                class="experience-details"
+                [id]="'experience-details-' + item.index"
+                [hidden]="!isExperienceOpen(item.index)"
+              >
+                <div><dt>{{ t.experience.responsibility }}</dt><dd>{{ item.responsibility[locale] }}</dd></div>
+                <div><dt>{{ t.experience.contribution }}</dt><dd>{{ item.contribution[locale] }}</dd></div>
+              </dl>
+
+              <div class="experience-footer">
+                <ul class="tag-list">
+                  @for (technology of item.technologies; track technology) {
+                    <li>{{ technology }}</li>
+                  }
+                </ul>
+                <button
+                  class="experience-toggle"
+                  type="button"
+                  [attr.aria-expanded]="isExperienceOpen(item.index)"
+                  [attr.aria-controls]="'experience-details-' + item.index"
+                  (click)="toggleExperience(item.index)"
+                >
+                  @if (isExperienceOpen(item.index)) {
+                    {{ t.experience.hideDetails }} <span aria-hidden="true">↑</span>
+                  } @else {
+                    {{ t.experience.showDetails }} <span aria-hidden="true">↓</span>
+                  }
+                </button>
+              </div>
+            </article>
+          </li>
         }
-      </div>
+      </ol>
     </section>
 
     <section
@@ -199,19 +220,48 @@
         <p>{{ t.capabilities.body }}</p>
       </div>
 
-      <div class="capability-grid-v2">
-        @for (group of capabilityGroups; track group.index) {
-          <article appReveal>
-            <span>{{ group.index }}</span>
-            <h3>{{ group.title[locale] }}</h3>
-            <p>{{ group.description[locale] }}</p>
-            <ul>
-              @for (item of group.items; track item.pt) {
-                <li>{{ item[locale] }}</li>
+      <div class="capability-matrix" appReveal>
+        <table>
+          <caption class="sr-only">{{ t.capabilities.caption }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ t.capabilities.capability }}</th>
+              @for (context of capabilityContexts; track context.key) {
+                <th scope="col">
+                  <small>{{ context.kind === "experience" ? t.capabilities.experience : t.capabilities.project }}</small>
+                  <span>{{ context.label }}</span>
+                </th>
               }
-            </ul>
-          </article>
-        }
+            </tr>
+          </thead>
+          <tbody>
+            @for (group of capabilityGroups; track group.index) {
+              <tr>
+                <th scope="row">
+                  <span>{{ group.index }}</span>
+                  <strong>{{ group.title[locale] }}</strong>
+                  <p>{{ group.description[locale] }}</p>
+                  <small>
+                    @for (item of group.items; track item.pt; let last = $last) {
+                      {{ item[locale] }}@if (!last) { · }
+                    }
+                  </small>
+                </th>
+                @for (context of capabilityContexts; track context.key) {
+                  @if (group.evidence[context.key]; as evidence) {
+                    <td class="has-evidence" [attr.data-label]="context.label">
+                      <i aria-hidden="true"></i>{{ evidence[locale] }}
+                    </td>
+                  } @else {
+                    <td class="no-evidence" [attr.data-label]="context.label">
+                      <span aria-hidden="true">—</span><span class="sr-only">{{ t.capabilities.absent }}</span>
+                    </td>
+                  }
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
       </div>
     </section>
 

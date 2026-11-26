@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import {
+  capabilityContexts,
   capabilityGroups,
   experience,
   homeHref,
@@ -50,6 +51,9 @@ export class HomePage {
   readonly projects = projects;
   readonly experience = experience.filter((item) => item.published);
   readonly capabilityGroups = capabilityGroups;
+  readonly capabilityContexts = capabilityContexts;
+  /** Experience entries whose details are expanded; the most recent starts open. */
+  readonly openExperience = signal<ReadonlySet<string>>(new Set(["01"]));
   readonly t = v2Copy[this.locale];
   readonly heroWords = this.t.hero.title.split(" ");
   readonly email = "brenoqn01@gmail.com";
@@ -79,6 +83,24 @@ export class HomePage {
 
     this.document.documentElement.lang = this.t.htmlLang;
     this.seo.update(homePageSeo(this.locale));
+  }
+
+  isExperienceOpen(index: string): boolean {
+    return this.openExperience().has(index);
+  }
+
+  toggleExperience(index: string): void {
+    this.openExperience.update((open) => {
+      const next = new Set(open);
+
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+
+      return next;
+    });
   }
 
   async copyEmail(): Promise<void> {

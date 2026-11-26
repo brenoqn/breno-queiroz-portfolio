@@ -68,12 +68,35 @@ export interface ExperienceEntry {
   published: boolean;
 }
 
+export type CapabilityContextKey =
+  | "maxicon"
+  | "evoluum"
+  | "galinheiro"
+  | "garage"
+  | "memoriar";
+
+export interface CapabilityContext {
+  key: CapabilityContextKey;
+  label: string;
+  kind: "experience" | "project";
+}
+
 export interface CapabilityGroup {
   index: string;
   title: LocalizedText;
   description: LocalizedText;
   items: LocalizedText[];
+  /** Where the capability shows up on the site, in its own words. */
+  evidence: Partial<Record<CapabilityContextKey, LocalizedText>>;
 }
+
+export const capabilityContexts: CapabilityContext[] = [
+  { key: "maxicon", label: "Maxicon", kind: "experience" },
+  { key: "evoluum", label: "Evoluum", kind: "experience" },
+  { key: "galinheiro", label: "Galinheiro", kind: "project" },
+  { key: "garage", label: "Garage", kind: "project" },
+  { key: "memoriar", label: "Memoriar", kind: "project" },
+];
 
 export const projects: Project[] = [
   {
@@ -852,6 +875,12 @@ export const capabilityGroups: CapabilityGroup[] = [
       { pt: "Design responsivo", en: "Responsive design" },
       { pt: "UX/UI", en: "UX/UI" },
     ],
+    evidence: {
+      evoluum: { pt: "UX → Figma → produto", en: "UX → Figma → product" },
+      galinheiro: { pt: "Concepção do sistema", en: "System design" },
+      garage: { pt: "Produto e experiência", en: "Product and experience" },
+      memoriar: { pt: "Público × administração", en: "Public × admin" },
+    },
   },
   {
     index: "02",
@@ -865,6 +894,12 @@ export const capabilityGroups: CapabilityGroup[] = [
       { pt: "TypeScript", en: "TypeScript" },
       { pt: "Micro Frontends", en: "Micro Frontends" },
     ],
+    evidence: {
+      maxicon: { pt: "Angular · Micro Frontends", en: "Angular · Micro Frontends" },
+      evoluum: { pt: "Angular · jornada de compra", en: "Angular · purchase journey" },
+      garage: { pt: "Angular · PWA", en: "Angular · PWA" },
+      memoriar: { pt: "Angular", en: "Angular" },
+    },
   },
   {
     index: "03",
@@ -878,6 +913,13 @@ export const capabilityGroups: CapabilityGroup[] = [
       { pt: "Spring Boot", en: "Spring Boot" },
       { pt: "APIs REST", en: "REST APIs" },
     ],
+    evidence: {
+      maxicon: { pt: "Java · Spring Boot · APIs REST", en: "Java · Spring Boot · REST APIs" },
+      evoluum: { pt: "Integração REST", en: "REST integration" },
+      galinheiro: { pt: "ESP32 · MQTT · Home Assistant", en: "ESP32 · MQTT · Home Assistant" },
+      garage: { pt: "Modelagem do domínio", en: "Domain modeling" },
+      memoriar: { pt: "Node.js · Express · API", en: "Node.js · Express · API" },
+    },
   },
   {
     index: "04",
@@ -891,6 +933,11 @@ export const capabilityGroups: CapabilityGroup[] = [
       { pt: "SQL", en: "SQL" },
       { pt: "Modelagem relacional", en: "Relational modeling" },
     ],
+    evidence: {
+      maxicon: { pt: "Oracle", en: "Oracle" },
+      garage: { pt: "Persistência local", en: "Local persistence" },
+      memoriar: { pt: "Dados · contratos compartilhados", en: "Data · shared contracts" },
+    },
   },
   {
     index: "05",
@@ -904,6 +951,10 @@ export const capabilityGroups: CapabilityGroup[] = [
       { pt: "CI/CD", en: "CI/CD" },
       { pt: "Docker", en: "Docker" },
     ],
+    evidence: {
+      maxicon: { pt: "Homologação e implantação", en: "Validation and deployment" },
+      memoriar: { pt: "Containers e publicação", en: "Containers and delivery" },
+    },
   },
 ];
 
@@ -955,11 +1006,18 @@ export const v2Copy = {
       responsibility: "Responsabilidade",
       contribution: "Contribuição",
       outcome: "Resultado",
+      showDetails: "Ver detalhes",
+      hideDetails: "Ocultar detalhes",
     },
     capabilities: {
       eyebrow: "Competências",
       title: "Capacidades organizadas pela entrega.",
       body: "Tecnologia tem valor quando sustenta uma decisão de produto, uma experiência ou uma operação melhor.",
+      caption: "Onde cada capacidade aparece nas experiências e nos cases",
+      capability: "Capacidade",
+      experience: "Experiência",
+      project: "Case",
+      absent: "Não se aplica",
     },
     lab: {
       eyebrow: "BQTECH Lab",
@@ -1064,11 +1122,18 @@ export const v2Copy = {
       responsibility: "Responsibility",
       contribution: "Contribution",
       outcome: "Outcome",
+      showDetails: "Show details",
+      hideDetails: "Hide details",
     },
     capabilities: {
       eyebrow: "Capabilities",
       title: "Capabilities organized around outcomes.",
       body: "Technology creates value when it supports a better product decision, experience, or operation.",
+      caption: "Where each capability shows up across experience and case studies",
+      capability: "Capability",
+      experience: "Experience",
+      project: "Case study",
+      absent: "Not applicable",
     },
     lab: {
       eyebrow: "BQTECH Lab",
