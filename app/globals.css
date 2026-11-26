@@ -3876,3 +3876,32 @@ main[tabindex="-1"] {
     width: 100%;
   }
 }
+
+/* Touch devices: keep interactive targets at least 44×44px (WCAG 2.5.5). */
+@media (pointer: coarse) {
+  .wordmark {
+    min-height: 44px;
+  }
+
+  .language-switch {
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .theme-toggle {
+    height: 44px;
+    width: 44px;
+  }
+
+  .project-link-v2,
+  .site-footer-v2 nav a {
+    align-items: center;
+    display: inline-flex;
+    min-height: 44px;
+  }
+
+  .site-footer-v2 nav {
+    row-gap: 0;
+  }
+}

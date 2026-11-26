@@ -103,12 +103,52 @@
         ]
       }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,100..900&amp;family=Space+Grotesk:wght@300..700&amp;family=Space+Mono:wght@400;700&amp;display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/archivo-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
+    <link
+      rel="preload"
+      href="/fonts/space-grotesk-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      /* Self-hosted fonts (SIL OFL 1.1, see /fonts/OFL-*.txt). Latin subset. */
+      @font-face {
+        font-family: "Archivo";
+        font-style: normal;
+        font-weight: 400 800;
+        font-stretch: 100% 125%;
+        font-display: swap;
+        src: url("/fonts/archivo-latin-var.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Space Grotesk";
+        font-style: normal;
+        font-weight: 300 700;
+        font-display: swap;
+        src: url("/fonts/space-grotesk-latin-var.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/space-mono-latin-400.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("/fonts/space-mono-latin-700.woff2") format("woff2");
+      }
+    </style>
   </head>
   <body>
     <app-root></app-root>
