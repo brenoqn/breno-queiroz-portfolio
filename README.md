@@ -1,7 +1,7 @@
 # Portfólio Breno Queiroz
 
 Portal público bilíngue e editorial da BQTECH, apresentando Breno Queiroz como Software Engineer
-com visão de produto, UX e execução ponta a ponta por meio dos cases reais Galinheiro, Garage e Memoriar.
+com visão de produto, UX e execução ponta a ponta por meio dos cases reais Galinheiro, Garage, Memoriar e MeoOvo.
 
 ## Arquitetura
 

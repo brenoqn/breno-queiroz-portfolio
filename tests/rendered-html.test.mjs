@@ -282,7 +282,8 @@ test("cycles through every next case with locale-safe data-driven routes", async
   const sequence = [
     ["galinheiro", "garage"],
     ["garage", "memoriar"],
-    ["memoriar", "galinheiro"],
+    ["memoriar", "meoovo"],
+    ["meoovo", "galinheiro"],
   ];
 
   for (const [current, next] of sequence) {
@@ -405,6 +406,7 @@ test("publishes factual experience and safe runtime assets only", async () => {
   ]);
   const shippedText = `${content}\n${home}`;
 
+  assert.match(content, /company: "GRUPO MAQNELSON"/);
   assert.match(content, /company: "MAXICON SISTEMAS"/);
   assert.match(content, /company: "EVOLUUM"/);
   assert.match(content, /Modernização do ERP Maxys/);
@@ -422,11 +424,12 @@ test("publishes factual experience and safe runtime assets only", async () => {
 test("prerenders route documents with route-specific social metadata", async () => {
   const read = (path) =>
     readFile(new URL(`../public/angular/${path}`, import.meta.url), "utf8");
-  const [root, en, garage, memoriarEn] = await Promise.all([
+  const [root, en, garage, memoriarEn, meoovo] = await Promise.all([
     read("index.html"),
     read("en/index.html"),
     read("projetos/garage/index.html"),
     read("en/projects/memoriar/index.html"),
+    read("projetos/meoovo/index.html"),
   ]);
 
   assert.match(root, /<link rel="canonical" href="https:\/\/bqtech\.com\.br\/"/);
@@ -438,6 +441,8 @@ test("prerenders route documents with route-specific social metadata", async () 
   assert.match(memoriarEn, /<html lang="en"/);
   assert.match(memoriarEn, /property="og:locale" content="en_US"/);
   assert.match(memoriarEn, /og\/memoriar-en\.png/);
+  assert.match(meoovo, /<title>MeoOvo — Breno Queiroz<\/title>/);
+  assert.match(meoovo, /og\/meoovo-pt\.png/);
 
   for (const html of [en, garage, memoriarEn]) {
     assert.match(html, /<app-root/);
