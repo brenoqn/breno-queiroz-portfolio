@@ -56,14 +56,18 @@ export interface Project {
 export interface ExperienceEntry {
   index: string;
   company: string;
+  /** Start year, or "start — end" for past roles. */
   period: string;
+  /** Current role: the period is shown as "<period> — Atual/Present". */
+  current?: boolean;
   role: LocalizedText;
   focus: LocalizedText;
   journey?: LocalizedText[];
   context: LocalizedText;
   responsibility: LocalizedText;
   contribution: LocalizedText;
-  outcome: LocalizedText;
+  /** Optional: hidden when there is no concrete, stated result yet. */
+  outcome?: LocalizedText;
   technologies: string[];
   published: boolean;
 }
@@ -795,11 +799,264 @@ export const projects: Project[] = [
       },
     ],
   },
+  {
+    slug: "meoovo",
+    index: "04",
+    category: {
+      pt: "Plataforma + Assinatura",
+      en: "Platform + Subscription",
+    },
+    title: {
+      pt: "MeoOvo",
+      en: "MeoOvo",
+    },
+    summary: {
+      pt: "Plataforma de assinatura e entrega recorrente de ovos caipiras que liga a produção da granja ao cliente final.",
+      en: "A subscription and recurring-delivery platform for free-range eggs that connects farm production to the end customer.",
+    },
+    problem: {
+      pt: "A produção é controlada de forma isolada, sem ligação com venda, cobrança e entrega, o que cria o risco de vender ovos que não serão produzidos.",
+      en: "Production is tracked in isolation, disconnected from sales, billing, and delivery, which creates the risk of selling eggs that will never be produced.",
+    },
+    contribution: {
+      pt: "Produto, arquitetura, API Java/Spring Boot, PWA Angular/Ionic, banco e migrations, CI e entrega no ecossistema BQTECH.",
+      en: "Product, architecture, Java/Spring Boot API, Angular/Ionic PWA, database and migrations, CI, and delivery within the BQTECH ecosystem.",
+    },
+    status: {
+      pt: "Fundação técnica · Em desenvolvimento",
+      en: "Technical foundation · In development",
+    },
+    statusDescription: {
+      pt: "A base técnica está pronta; os módulos de negócio (produção, estoque, assinatura, cobrança e entrega) ainda serão construídos.",
+      en: "The technical foundation is in place; the business modules (production, inventory, subscriptions, billing, and delivery) are still to be built.",
+    },
+    currentState: {
+      pt: "Hoje existem a API com endpoint de status e segurança básica, a primeira migration, o PWA base, o CI e as imagens publicadas no GHCR. O deploy por etapas está preparado, mas a homologação ainda não está no ar.",
+      en: "Today there is an API with a status endpoint and basic security, the first migration, the base PWA, CI, and images published to GHCR. Staged deployment is prepared, but the staging environment is not live yet.",
+    },
+    technologies: ["Java 25", "Spring Boot 4", "PostgreSQL 18", "Flyway", "Angular 22", "Ionic 9"],
+    context: {
+      pt: "Desenvolvida para o aviário SantoNinho dentro do ecossistema BQTECH, a plataforma amplia um fluxo produtivo existente para que produção, venda, cobrança e entrega passem a funcionar como um único processo.",
+      en: "Built for the SantoNinho farm within the BQTECH ecosystem, the platform extends an existing production flow so that production, sales, billing, and delivery work as a single process.",
+    },
+    role: {
+      pt: "Produto, arquitetura e desenvolvimento full stack",
+      en: "Product, architecture, and full-stack development",
+    },
+    challenge: {
+      pt: "Vender conveniência sem vender estoque inexistente: cada assinatura precisa reservar a produção futura antes de prometer uma entrega.",
+      en: "Sell convenience without selling stock that does not exist: each subscription must reserve future production before promising a delivery.",
+    },
+    architectureSummary: {
+      pt: "Dois repositórios privados e independentes: uma API Spring Boot organizada como monólito modular por domínio, com PostgreSQL e migrations Flyway, e um PWA Angular/Ionic que consome a API versionada em /api/v1. As duas aplicações são publicadas como imagens no GHCR e atualizadas pelo próprio servidor BQTECH.",
+      en: "Two independent private repositories: a Spring Boot API organized as a domain-based modular monolith, with PostgreSQL and Flyway migrations, and an Angular/Ionic PWA that consumes the API versioned under /api/v1. Both applications are published as GHCR images and updated by the BQTECH server itself.",
+    },
+    constraints: [
+      {
+        pt: "Os módulos de negócio ainda não existem: o produto atual é a fundação técnica.",
+        en: "The business modules do not exist yet: the current product is the technical foundation.",
+      },
+      {
+        pt: "Ainda não há telas de produto nem ambiente de homologação no ar.",
+        en: "There are no product screens and no live staging environment yet.",
+      },
+      {
+        pt: "Pagamentos (Pix e cartão) e logística de entrega dependem de integrações ainda não implementadas.",
+        en: "Payments (Pix and card) and delivery logistics depend on integrations that are not implemented yet.",
+      },
+    ],
+    decisions: [
+      {
+        index: "01",
+        title: { pt: "Monólito modular", en: "Modular monolith" },
+        description: {
+          pt: "Organizar a API por domínio em um único serviço, com limites internos que permitem testes isolados e extração só quando houver necessidade.",
+          en: "Organize the API by domain in a single service, with internal boundaries that allow isolated tests and extraction only when needed.",
+        },
+      },
+      {
+        index: "02",
+        title: { pt: "Schema versionado", en: "Versioned schema" },
+        description: {
+          pt: "Toda alteração de banco em migrations Flyway, testadas contra PostgreSQL real via Testcontainers.",
+          en: "Every database change goes through Flyway migrations, tested against a real PostgreSQL via Testcontainers.",
+        },
+      },
+      {
+        index: "03",
+        title: { pt: "Repositórios independentes", en: "Independent repositories" },
+        description: {
+          pt: "API e PWA com histórico, CI e releases próprios, e o contrato entre eles versionado de forma explícita.",
+          en: "API and PWA with their own history, CI, and releases, and an explicitly versioned contract between them.",
+        },
+      },
+      {
+        index: "04",
+        title: { pt: "Entrega por pull", en: "Pull-based delivery" },
+        description: {
+          pt: "Imagens no GHCR com tags latest e sha; o servidor atualiza por timer, sem credenciais no GitHub.",
+          en: "GHCR images tagged latest and sha; the server updates on a timer, with no credentials in GitHub.",
+        },
+      },
+    ],
+    evidence: [
+      {
+        pt: "API Spring Boot com endpoint de status, segurança básica e a primeira migration Flyway.",
+        en: "Spring Boot API with a status endpoint, basic security, and the first Flyway migration.",
+      },
+      {
+        pt: "PWA base em Angular 22 e Ionic 9 consumindo a API pela rota relativa /api/v1.",
+        en: "Base PWA in Angular 22 and Ionic 9 consuming the API through the relative /api/v1 route.",
+      },
+      {
+        pt: "CI no GitHub Actions validando e construindo as duas imagens, com publicação no GHCR a cada merge.",
+        en: "CI on GitHub Actions validating and building both images, publishing to GHCR on every merge.",
+      },
+    ],
+    evidenceSummary: {
+      pt: "A evidência atual é a fundação técnica validada, não a operação comercial da plataforma.",
+      en: "The current evidence is the validated technical foundation, not the commercial operation of the platform.",
+    },
+    limitations: [
+      {
+        pt: "Produção, estoque, assinaturas, cobrança e entrega ainda não foram implementados.",
+        en: "Production, inventory, subscriptions, billing, and delivery have not been implemented yet.",
+      },
+      {
+        pt: "A interface ainda é a base do Angular, sem telas de produto para mostrar.",
+        en: "The interface is still the Angular baseline, with no product screens to show.",
+      },
+    ],
+    nextSteps: [
+      {
+        index: "01",
+        title: { pt: "Núcleo de produção", en: "Production core" },
+        description: {
+          pt: "Registrar a produção e um estoque único que reserva a produção futura para as assinaturas.",
+          en: "Record production and a single inventory that reserves future output for subscriptions.",
+        },
+      },
+      {
+        index: "02",
+        title: { pt: "Assinatura", en: "Subscriptions" },
+        description: {
+          pt: "Permitir escolher caixa, frequência e pagamento (Pix ou cartão), com pausa e reagendamento até o horário de corte.",
+          en: "Let customers choose the box, frequency, and payment (Pix or card), with pause and rescheduling until the cutoff time.",
+        },
+      },
+      {
+        index: "03",
+        title: { pt: "Homologação", en: "Staging" },
+        description: {
+          pt: "Ativar o deploy por etapas no servidor BQTECH.",
+          en: "Turn on staged deployment on the BQTECH server.",
+        },
+      },
+    ],
+    vision: {
+      pt: "Atender outros aviários além da SantoNinho, mantendo produção, venda, cobrança e entrega no mesmo fluxo.",
+      en: "Serve other farms beyond SantoNinho while keeping production, sales, billing, and delivery in the same flow.",
+    },
+    outcome: {
+      pt: "A fundação da plataforma está validada: banco, migrations, API, PWA, CI e entrega funcionam juntos antes do primeiro módulo de negócio.",
+      en: "The platform foundation is validated: database, migrations, API, PWA, CI, and delivery work together before the first business module.",
+    },
+    learning: {
+      pt: "Validar banco, migrations, CI e entrega antes dos módulos de negócio reduz o risco de construir regras sobre uma base instável.",
+      en: "Validating the database, migrations, CI, and delivery before the business modules reduces the risk of building rules on an unstable base.",
+    },
+    process: [
+      {
+        index: "01",
+        title: { pt: "Fundação", en: "Foundation" },
+        description: {
+          pt: "Validar Spring Boot, PostgreSQL, Flyway e Testcontainers com um endpoint de status.",
+          en: "Validate Spring Boot, PostgreSQL, Flyway, and Testcontainers with a status endpoint.",
+        },
+      },
+      {
+        index: "02",
+        title: { pt: "Interface", en: "Interface" },
+        description: {
+          pt: "Estruturar o PWA Angular/Ionic e o contrato com a API.",
+          en: "Set up the Angular/Ionic PWA and its contract with the API.",
+        },
+      },
+      {
+        index: "03",
+        title: { pt: "Entrega", en: "Delivery" },
+        description: {
+          pt: "Automatizar validação, build e publicação das imagens no GHCR.",
+          en: "Automate validation, builds, and image publishing to GHCR.",
+        },
+      },
+      {
+        index: "04",
+        title: { pt: "Negócio", en: "Business" },
+        description: {
+          pt: "Construir produção, estoque, assinatura, cobrança e entrega sobre essa base.",
+          en: "Build production, inventory, subscriptions, billing, and delivery on top of this foundation.",
+        },
+      },
+    ],
+    coverFlow: [
+      {
+        index: "01",
+        label: { pt: "Produtor", en: "Producer" },
+        value: { pt: "SantoNinho", en: "SantoNinho" },
+      },
+      {
+        index: "02",
+        label: { pt: "Produção", en: "Production" },
+        value: { pt: "Estoque único", en: "Single inventory" },
+      },
+      {
+        index: "03",
+        label: { pt: "Plataforma", en: "Platform" },
+        value: { pt: "MeoOvo", en: "MeoOvo" },
+      },
+      {
+        index: "04",
+        label: { pt: "Cliente", en: "Customer" },
+        value: { pt: "Assinatura recorrente", en: "Recurring subscription" },
+      },
+      {
+        index: "05",
+        label: { pt: "Operação", en: "Operations" },
+        value: { pt: "BQTECH", en: "BQTECH" },
+      },
+    ],
+  },
 ];
 
 export const experience: ExperienceEntry[] = [
   {
     index: "01",
+    company: "GRUPO MAQNELSON",
+    period: "2026",
+    current: true,
+    role: { pt: "Desenvolvedor Full Stack", en: "Full-Stack Developer" },
+    focus: {
+      pt: "Incentivos e campanhas comerciais",
+      en: "Sales incentives and commercial campaigns",
+    },
+    context: {
+      pt: "Desenvolvimento e evolução de soluções corporativas para gestão de incentivos e campanhas comerciais.",
+      en: "Building and evolving enterprise solutions for managing sales incentives and commercial campaigns.",
+    },
+    responsibility: {
+      pt: "Módulos full stack com C#, .NET 10, React e PostgreSQL, incluindo APIs REST, regras de negócio, modelagem de entidades, migrations com Entity Framework Core e contratos de integração entre frontend e backend.",
+      en: "Full-stack modules built with C#, .NET 10, React, and PostgreSQL, covering REST APIs, business rules, entity modeling, Entity Framework Core migrations, and frontend–backend integration contracts.",
+    },
+    contribution: {
+      pt: "Estruturação de integrações com TOTVS Protheus, Microsoft Fabric e Microsoft Graph, com autenticação delegada via Microsoft Entra ID; auditoria e persistência de comunicações com o padrão Outbox; e evolução da arquitetura das aplicações.",
+      en: "Integrations with TOTVS Protheus, Microsoft Fabric, and Microsoft Graph, with delegated authentication through Microsoft Entra ID; auditing and message persistence with the Outbox pattern; and evolution of the application architecture.",
+    },
+    technologies: ["C#", ".NET 10", "React", "PostgreSQL", "Entity Framework Core", "TOTVS Protheus", "Microsoft Graph"],
+    published: true,
+  },
+  {
+    index: "02",
     company: "MAXICON SISTEMAS",
     period: "2024 — 2026",
     role: { pt: "Desenvolvedor Full Stack", en: "Full-Stack Developer" },
@@ -808,8 +1065,8 @@ export const experience: ExperienceEntry[] = [
       en: "Maxys ERP modernization",
     },
     context: {
-      pt: "Modernização do ERP Maxys e evolução de aplicações corporativas ligadas a processos críticos de negócio.",
-      en: "Modernization of the Maxys ERP and evolution of enterprise applications supporting critical business processes.",
+      pt: "Evolução do ERP com foco em contratos, faturamento, serviços e operações empresariais, em aplicações ligadas a processos críticos de negócio.",
+      en: "ERP evolution focused on contracts, billing, services, and business operations, in applications supporting critical business processes.",
     },
     responsibility: {
       pt: "Atuação ponta a ponta em módulos construídos com Angular, Java, Spring Boot e Oracle, incluindo análise, implementação, troubleshooting, homologação e implantação.",
@@ -827,7 +1084,7 @@ export const experience: ExperienceEntry[] = [
     published: true,
   },
   {
-    index: "02",
+    index: "03",
     company: "EVOLUUM",
     period: "2021 — 2024",
     role: { pt: "Desenvolvedor Front-end", en: "Front-End Developer" },
@@ -1006,6 +1263,7 @@ export const v2Copy = {
       responsibility: "Responsabilidade",
       contribution: "Contribuição",
       outcome: "Resultado",
+      present: "Atual",
       showDetails: "Ver detalhes",
       hideDetails: "Ocultar detalhes",
     },
@@ -1122,6 +1380,7 @@ export const v2Copy = {
       responsibility: "Responsibility",
       contribution: "Contribution",
       outcome: "Outcome",
+      present: "Present",
       showDetails: "Show details",
       hideDetails: "Hide details",
     },

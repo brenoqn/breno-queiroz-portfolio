@@ -48,4 +48,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/memoriar"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/memoriar"/>
   </url>
+  <url>
+    <loc>https://bqtech.com.br/projetos/meoovo</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/meoovo"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/meoovo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/meoovo"/>
+  </url>
+  <url>
+    <loc>https://bqtech.com.br/en/projects/meoovo</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bqtech.com.br/projetos/meoovo"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bqtech.com.br/en/projects/meoovo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bqtech.com.br/projetos/meoovo"/>
+  </url>
 </urlset>

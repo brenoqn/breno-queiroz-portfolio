@@ -142,7 +142,7 @@
         @for (item of experience; track item.index) {
           <li class="experience-item" [class.is-open]="isExperienceOpen(item.index)" appReveal>
             <div class="experience-when">
-              <time>{{ item.period }}</time>
+              <time>{{ item.period }}@if (item.current) { — {{ t.experience.present }} }</time>
               <span>{{ item.index }}</span>
             </div>
             <div class="experience-rail" aria-hidden="true"><span></span></div>
@@ -169,10 +169,12 @@
                 </div>
               }
 
-              <div class="experience-result">
-                <span>{{ t.experience.outcome }}</span>
-                <p>{{ item.outcome[locale] }}</p>
-              </div>
+              @if (item.outcome; as outcome) {
+                <div class="experience-result">
+                  <span>{{ t.experience.outcome }}</span>
+                  <p>{{ outcome[locale] }}</p>
+                </div>
+              }
 
               <dl
                 class="experience-details"
